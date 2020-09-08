@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extentreports>
+    <configuration>
+        <!-- report theme -->
+        <!-- standard, dark -->
+        <theme>dark</theme>
+
+        <!-- document encoding -->
+        <!-- defaults to UTF-8 -->
+        <encoding>UTF-8</encoding>
+
+        <!-- protocol for script and stylesheets -->
+        <!-- defaults to https -->
+        <protocol>https</protocol>
+
+        <!-- title of the document -->
+        <documentTitle>Automation Example</documentTitle>
+
+        <!-- report name - displayed at top-nav -->
+        <reportName>Build 1</reportName>
+
+        <!-- timestamp format -->
+        <timeStampFormat>HH:mm:ss a | dd/MM/yyyy</timeStampFormat>
+
+        <!-- custom javascript -->
+        <scripts>
+            <![CDATA[
+                $(document).ready(function() {
+                    $.each($('span:contains(\'base64-img\')'), function(i,v){
+                        $(v).addClass('blue');
+                        $(v).removeClass('grey');
+                        $(v).text('Image');
+                    });
+                });
+            ]]>
+        </scripts>
+
+        <!-- custom styles -->
+        <styles>
+            <![CDATA[
+                img.r-img {
+                    border: 2px solid #F44336;
+                    border-radius: 0 0 .25rem .25rem;
+                    padding: 1px;
+                    width: 66.75px;
+                    height: 66.75px;
+                }
+                .badge.white-text.red {
+                    border-radius: .25rem .25rem 0rem 0rem;
+                }
+            ]]>
+        </styles>
+    </configuration>
+</extentreports>

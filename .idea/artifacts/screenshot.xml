@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="screenshot">
+    <output-path>$PROJECT_DIR$/out/artifacts/screenshot</output-path>
+    <root id="archive" name="screenshot.jar">
+      <element id="module-output" name="Bsmch" />
+      <element id="module-source" name="Bsmch" />
+    </root>
+  </artifact>
+</component>

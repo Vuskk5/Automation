@@ -1,0 +1,20 @@
+{
+  "Form Data": [
+    {
+      "email": "vuskk5@gmail.com",
+      "phone": "0549576063",
+      "name": "Kfir Doron",
+      "services": ["Hotel Rooms", "Cruises or Boats"],
+      "platforms": ["Website Only", "Mobile App iOS Only", "Ultimate package Web + Mobile + Desktop"],
+      "alreadyHasAWebsite": false
+    },
+    {
+      "email": "12345@walla.co.il",
+      "phone": "0000000000",
+      "name": "Michael Jackson",
+      "services": ["Hotel Rooms", "Cruises or Boats"],
+      "platforms": ["Website Only", "Mobile App iOS Only", "Ultimate package Web + Mobile + Desktop"],
+      "alreadyHasAWebsite": false
+    }
+  ]
+}

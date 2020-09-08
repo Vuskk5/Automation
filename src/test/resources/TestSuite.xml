@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Independent Suite" verbose="1">
+    <listeners>
+        <listener class-name="practice.independentTestingSuite.support.listeners.TestListener"/>
+    </listeners>
+
+    <test name="Submit Valid Requirements" >
+        <classes>
+            <class name="practice.independentTestingSuite.tests.SubmitRequirementsTest"/>
+        </classes>
+    </test>
+</suite>
