@@ -1,15 +1,19 @@
-package asisimAdvanced.navigation;
+package asisimAdvanced.components.navigation;
 
+import asisimAdvanced.pages.manage.doctors.ManageDoctorsPage;
+import asisimAdvanced.pages.manage.soldiers.ManageSoldiersPage;
 import org.openqa.selenium.By;
+
+import static asisimAdvanced.pages.manage.soldiers.ManageSoldiersPage.page;
 
 public class NavigateTo {
     public static class SoldierTreatment extends MenuDropDown {
         private static By menuLocator = By.xpath("//*[contains(text(), \"טיפול בחייל\")]/parent::li");
 
-        public static Runnable reception       = () -> init().openSubMenu(By.linkText("קליטת חייל"));
-        public static Runnable newAppointment  = () -> init().openSubMenu(By.linkText("זימון תור"));
-        public static Runnable newReference    = () -> init().openSubMenu(By.linkText("מתן הפנייה"));
-        public static Runnable newPrescription = () -> init().openSubMenu(By.linkText("מתן מרשם"));
+        public static Runnable reception       = () -> init().clickSubOption(By.linkText("קליטת חייל"));
+        public static Runnable newAppointment  = () -> init().clickSubOption(By.linkText("זימון תור"));
+        public static Runnable newReference    = () -> init().clickSubOption(By.linkText("מתן הפנייה"));
+        public static Runnable newPrescription = () -> init().clickSubOption(By.linkText("מתן מרשם"));
 
         private SoldierTreatment() {
             super(menuLocator);
@@ -55,8 +59,8 @@ public class NavigateTo {
     public static class Appointments extends MenuDropDown {
         private static By menuLocator = By.xpath("//*[contains(text(), \"תורים\")]/parent::li");
 
-        public static Runnable appointmentList = () -> init().openSubMenu(By.linkText("רשימת התורים"));
-        public static Runnable allAppointments = () -> init().openSubMenu(By.linkText("כל התורים"));
+        public static Runnable appointmentList = () -> init().clickSubOption(By.linkText("רשימת התורים"));
+        public static Runnable allAppointments = () -> init().clickSubOption(By.linkText("כל התורים"));
 
         private Appointments() {
             super(menuLocator);
@@ -70,8 +74,8 @@ public class NavigateTo {
     public static class ClinicManagement extends MenuDropDown {
         private static By menuLocator = By.xpath("//*[contains(text(), \"ניהול מרפאה\")]/parent::li");
 
-        public static Runnable orderMedicine = () -> init().openSubMenu(By.linkText("קליטת תרופות"));
-        public static Runnable statistics    = () -> init().openSubMenu(By.linkText("סטטיסטיקות"));
+        public static Runnable orderMedicine = () -> init().clickSubOption(By.linkText("קליטת תרופות"));
+        public static Runnable statistics    = () -> init().clickSubOption(By.linkText("סטטיסטיקות"));
 
         private ClinicManagement() {
             super(menuLocator);
@@ -83,14 +87,20 @@ public class NavigateTo {
     }
 
     public static class BasisManagement extends MenuDropDown {
-        private static By menuLocator = By.xpath("//*[@id = \"BasisManagement\"]/parent::li");
+        private static By menuLocator = By.xpath("//*[contains(text(), \"ניהול תשתיות\")]/parent::li");
 
-        public static Runnable soldiers    = () -> init().openSubMenu(By.linkText("ניהול חיילים"));
-        public static Runnable doctors     = () -> init().openSubMenu(By.linkText("ניהול רופאים"));
-        public static Runnable severities  = () -> init().openSubMenu(By.linkText("ניהול חומרת מחלות"));
-        public static Runnable specialties = () -> init().openSubMenu(By.linkText("ניהול חיילים"));
-        public static Runnable users       = () -> init().openSubMenu(By.linkText("ניהול משתמשים"));
-        public static Runnable medicines   = () -> init().openSubMenu(By.linkText("ניהול תרופות"));
+        public static ManageSoldiersPage soldiers() {
+            init().clickSubOption(By.linkText("ניהול חיילים"));
+            return page(ManageSoldiersPage.class);
+        }
+        public static ManageDoctorsPage doctors() {
+            init().clickSubOption(By.linkText("ניהול רופאים"));
+            return page(ManageDoctorsPage.class);
+        }
+        public static Runnable severities  = () -> init().clickSubOption(By.linkText("ניהול חומרת מחלות"));
+        public static Runnable specialties = () -> init().clickSubOption(By.linkText("ניהול חיילים"));
+        public static Runnable users       = () -> init().clickSubOption(By.linkText("ניהול משתמשים"));
+        public static Runnable medicines   = () -> init().clickSubOption(By.linkText("ניהול תרופות"));
 
         private BasisManagement() {
             super(menuLocator);

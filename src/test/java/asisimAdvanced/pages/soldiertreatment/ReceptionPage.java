@@ -1,7 +1,6 @@
 package asisimAdvanced.pages.soldiertreatment;
 
 import asisimAdvanced.enums.Severities;
-import asisimAdvanced.pages.general.CustomConditions;
 import asisimAdvanced.pages.general.MainPage;
 import asisimAdvanced.pages.soldiertreatment.fragment.AppointmentDetails;
 import asisimAdvanced.pages.soldiertreatment.fragment.AppointmentSelection;

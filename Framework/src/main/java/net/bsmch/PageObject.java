@@ -1,5 +1,7 @@
 package net.bsmch;
 
+import net.bsmch.components.api.ComponentFactory;
+import net.bsmch.drivermanager.DriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,8 +11,11 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.selophane.elements.base.Element;
 import org.selophane.elements.base.ElementImpl;
+import org.selophane.elements.factory.api.ElementFactory;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -31,6 +36,9 @@ public abstract class PageObject {
     public PageObject(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, DEFAULT_TIMEOUT_IN_SECONDS);
+
+        ComponentFactory.initComponents(driver, this);
+        ElementFactory.initElements(driver, this);
     }
 
     public WebDriver.Timeouts setImplicitTimeout(int duration, TimeUnit unit) {
@@ -91,6 +99,17 @@ public abstract class PageObject {
 
     public WebDriver getDriver() {
         return driver;
+    }
+
+    public static <T extends PageObject> T page(Class<T> clazz) {
+        try {
+            Constructor<T> con = clazz.getConstructor(WebDriver.class);
+            return con.newInstance(DriverManager.getDriver());
+        }
+        catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 
     public <T extends FluentWait<WebDriver>> T getWait() {

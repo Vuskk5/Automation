@@ -1,4 +1,4 @@
-package asisimAdvanced.pages.general;
+package asisimAdvanced.support;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

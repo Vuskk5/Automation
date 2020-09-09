@@ -4,11 +4,12 @@ import asisimAdvanced.pages.general.MainPage;
 import net.bsmch.findby.Find;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.selophane.elements.base.Element;
 import org.selophane.elements.widget.Table;
 
-public abstract class AbstractManagementPage<T> extends MainPage {
+import static org.openqa.selenium.support.ui.ExpectedConditions.*;
+
+public abstract class AbstractManagementPage<T extends AbstractManagementPage<T, X>, X> extends MainPage {
     @Find(className = "table-hover")
     private Table table;
     @Find(attribute = "data-target", value = "#new")
@@ -22,25 +23,27 @@ public abstract class AbstractManagementPage<T> extends MainPage {
         super(driver);
     }
 
-    public abstract void add(T object);
-    public abstract void delete(T object);
-    public abstract void edit(T object);
-    public abstract void select(T object);
+    public abstract void add(X object);
+    public abstract void delete(X object);
+    public abstract void edit(X object);
+    public abstract void select(X object);
 
-    public AbstractManagementPage<T> clickNew() {
+    protected abstract T getThis();
+
+    public T clickNew() {
         newButton.click();
-        getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("new")));
-        return this;
+        getWait().until(visibilityOfElementLocated(By.id("new")));
+        return getThis();
     }
 
-    public AbstractManagementPage<T> clickDelete() {
+    public T clickDelete() {
         deleteButton.click();
-        return this;
+        return getThis();
     }
 
-    public AbstractManagementPage<T> clickUpdate() {
+    public T clickUpdate() {
         updateButton.click();
-        return this;
+        return getThis();
     }
 
     public Table table() {

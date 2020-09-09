@@ -1,16 +1,19 @@
 package asisimAdvanced.models;
 
+import asisimAdvanced.managers.ClinicManager;
+import asisimAdvanced.managers.RankManager;
+
 import java.util.Date;
 
 public class Soldier {
-    private long id;
+    private Long id;
     private String name;
     private Date draftDate;
     private Date releaseDate;
-    private long rankId;
-    private long clinicId;
+    private Long rankId;
+    private Long clinicId;
 
-    public Soldier(long id, String name, Date draftDate, Date releaseDate, long rankId, long clinicId) {
+    public Soldier(Long id, String name, Date draftDate, Date releaseDate, Long rankId, Long clinicId) {
         this.id = id;
         this.name = name;
         this.draftDate = draftDate;
@@ -19,11 +22,11 @@ public class Soldier {
         this.clinicId = clinicId;
     }
 
-    public long id() {
+    public Long id() {
         return id;
     }
 
-    public void id(long id) {
+    public void id(Long id) {
         this.id = id;
     }
 
@@ -51,19 +54,27 @@ public class Soldier {
         this.releaseDate = releaseDate;
     }
 
-    public long rankId() {
+    public Long rankId() {
         return rankId;
     }
 
-    public void rankId(long rankId) {
+    public void rankId(Long rankId) {
         this.rankId = rankId;
     }
 
-    public long clinicId() {
+    public String rankName() {
+        return RankManager.byId(rankId()).name();
+    }
+
+    public Long clinicId() {
         return clinicId;
     }
 
-    public void clinicId(long clinicId) {
+    public void clinicId(Long clinicId) {
         this.clinicId = clinicId;
+    }
+
+    public String clinicName() {
+        return ClinicManager.byId(clinicId()).name();
     }
 }

@@ -1,7 +1,6 @@
 package asisimAdvanced.pages.soldiertreatment.fragment;
 
 import asisimAdvanced.components.DatePicker;
-import io.cucumber.java.an.E;
 import net.bsmch.components.PageComponent;
 import net.bsmch.findby.Find;
 import org.openqa.selenium.By;

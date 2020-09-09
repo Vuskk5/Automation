@@ -1,13 +1,13 @@
-package asisimAdvanced.navigation;
+package asisimAdvanced.components.navigation;
 
+import net.bsmch.drivermanager.DriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import support.drivermanager.DriverManager;
 
 import java.util.concurrent.TimeUnit;
 
-class MenuDropDown {
+abstract class MenuDropDown {
     protected WebDriver driver;
     protected WebElement menuContext;
 
@@ -41,9 +41,7 @@ class MenuDropDown {
         }
     }
 
-    // TODO: Change return type to page
-    protected Void openSubMenu(By subMenu) {
+    protected void clickSubOption(By subMenu) {
         menuContext.findElement(subMenu).click();
-        return null;
     }
 }

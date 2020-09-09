@@ -1,7 +1,7 @@
 package asisimAdvanced.components;
 
 import asisimAdvanced.enums.AlertStatus;
-import asisimAdvanced.pages.general.CustomConditions;
+import asisimAdvanced.support.CustomConditions;
 import net.bsmch.components.PageComponent;
 import net.bsmch.findby.Find;
 import org.openqa.selenium.support.ui.WebDriverWait;
