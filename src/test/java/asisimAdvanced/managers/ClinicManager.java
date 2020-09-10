@@ -19,14 +19,13 @@ public class ClinicManager {
 
     private static void init() {
         clinics =
-        Arrays.asList(
-            given()
-                .baseUri("http://localhost")
-                .port(9000)
-                .cookie(authenticate("developer", "developer"))
-            .when()
-                .get("/clinics").as(Clinic[].class)
-        );
+            Arrays.asList(
+                given()
+                    .port(9000)
+                    .cookie(authenticate("developer", "developer"))
+                .when()
+                    .get("/clinics").as(Clinic[].class)
+            );
     }
 
     public static Clinic byId(Long clinicId) {

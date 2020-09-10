@@ -20,6 +20,46 @@ public class Frame {
         return (firstChance + secondChance + extraScore);
     }
 
+    public int getExtraScore() {
+        return extraScore;
+    }
+
+    public void setExtraScore(int extraScore) {
+        this.extraScore = extraScore;
+    }
+
+    public int getFirstChance() {
+        return firstChance;
+    }
+
+    public void setFirstChance(int firstChance) {
+        this.firstChance = firstChance;
+    }
+
+    public int getSecondChance() {
+        return secondChance;
+    }
+
+    public void setSecondChance(int secondChance) {
+        this.secondChance = secondChance;
+    }
+
+    public boolean isStrike() {
+        return isStrike;
+    }
+
+    public void setStrike(boolean strike) {
+        isStrike = strike;
+    }
+
+    public boolean isSpare() {
+        return isSpare;
+    }
+
+    public void setSpare(boolean spare) {
+        isSpare = spare;
+    }
+
     public String toString() {
         if (isStrike) {
             return "_|X = " + getScore();

@@ -1,11 +1,12 @@
 package asisimAdvanced.components;
 
 import asisimAdvanced.enums.AlertStatus;
-import asisimAdvanced.support.CustomConditions;
 import net.bsmch.components.PageComponent;
 import net.bsmch.findby.Find;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.selophane.elements.base.Element;
+
+import static asisimAdvanced.support.CustomConditions.sweetAlertIsPresent;
 
 public class SweetAlert extends PageComponent {
     @Find(tagName = "h2")
@@ -20,13 +21,14 @@ public class SweetAlert extends PageComponent {
     }
 
     public AlertStatus status() {
-        new WebDriverWait(getDriver(), 10)
-                .withMessage("alert did not show")
-                .until(CustomConditions.sweetAlertIsPresent());
+        driverWait().withMessage("alert did not show")
+                    .until(sweetAlertIsPresent());
 
-        String[] statuses = $(".icon[style=\"display: block;\"]").getAttribute("class").split(" ");
+        Element displayedIcon = $(".icon[style=\"display: block;\"]");
+        String[] classes = displayedIcon.getAttribute("class").split(" ");
+        String alertStatus = classes[1];
 
-        return AlertStatus.valueOf(statuses[1].toUpperCase());
+        return AlertStatus.valueOf(alertStatus.toUpperCase());
     }
 
     public String message() {

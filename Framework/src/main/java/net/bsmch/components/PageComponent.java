@@ -1,15 +1,16 @@
 package net.bsmch.components;
 
 import net.bsmch.ElementConverter;
-import net.bsmch.PageObject;
 import net.bsmch.Selectors;
 import net.bsmch.elementwait.WebElementWait;
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WrapsDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.selophane.elements.base.Element;
 import org.selophane.elements.base.ElementImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,8 +25,9 @@ public abstract class PageComponent {
      */
     private Element context;
     private WebDriver driver;
-    private WebElementWait wait;
-
+    private WebElementWait elementWait;
+    private WebDriverWait driverWait;
+    private static final int DEFAULT_TIMEOUT_IN_SECONDS = 10;
     /**
      * Empty constructor to be used via Reflection.
      */
@@ -49,11 +51,18 @@ public abstract class PageComponent {
         return driver;
     }
 
-    public WebElementWait getWait() {
-        if (wait == null) {
-            wait = new WebElementWait(context, 10);
+    public WebElementWait contextWait() {
+        if (elementWait == null) {
+            elementWait = new WebElementWait(getContext(), DEFAULT_TIMEOUT_IN_SECONDS);
         }
-        return wait;
+        return elementWait;
+    }
+
+    public WebDriverWait driverWait() {
+        if (driverWait == null) {
+            driverWait = new WebDriverWait(getDriver(), DEFAULT_TIMEOUT_IN_SECONDS);
+        }
+        return driverWait;
     }
 
     protected Element $(String xpathOrCssSelector) {

@@ -2,10 +2,8 @@ package practice.independentTestingSuite.pages.components.form;
 
 import net.bsmch.components.PageComponent;
 import net.bsmch.elementwait.ElementConditions;
-import org.jruby.RubyProcess;
 import org.openqa.selenium.WebElement;
 
-import java.util.Iterator;
 import java.util.Set;
 
 public class FormComponent extends PageComponent {
@@ -37,6 +35,6 @@ public class FormComponent extends PageComponent {
     }
 
     public void waitUntilActive() {
-        getWait().until(ElementConditions.attributeContains(getContext(), "class", "active"));
+        contextWait().until(ElementConditions.attributeContains(getContext(), "class", "active"));
     }
 }

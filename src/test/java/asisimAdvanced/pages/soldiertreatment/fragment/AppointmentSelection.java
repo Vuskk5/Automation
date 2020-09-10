@@ -43,7 +43,7 @@ public class AppointmentSelection extends PageComponent {
 
     public AppointmentSelection filterByDoctor(String doctorName) {
         doctorFilter.click();
-        getWait().until((WebElement) -> doctors.getOptions().size() > 1);
+        contextWait().until((WebElement) -> doctors.getOptions().size() > 1);
         doctors.selectByVisibleText(doctorName);
         showAvailableAppointments();
         return this;
@@ -52,7 +52,7 @@ public class AppointmentSelection extends PageComponent {
     private void showAvailableAppointments() {
         availableAppointmentsButton.click();
 
-        getWait().until(WebElement -> getContext().findElements(By.cssSelector("#schedule tr")).size() > 0);
+        contextWait().until(WebElement -> $$(By.cssSelector("#schedule tr")).size() > 0);
     }
 
     public AppointmentSelection selectDate(int year, int month, int day) {

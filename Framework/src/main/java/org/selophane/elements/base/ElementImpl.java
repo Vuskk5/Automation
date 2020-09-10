@@ -1,8 +1,10 @@
 package org.selophane.elements.base;
 
+import net.bsmch.ByBuilder;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Coordinates;
 import org.openqa.selenium.interactions.Locatable;
+import org.openqa.selenium.support.pagefactory.ByChained;
 
 import java.util.List;
 
@@ -126,5 +128,20 @@ public class ElementImpl implements Element {
     @Override
     public WebDriver getWrappedDriver() {
         return ((WrapsDriver) getWrappedElement()).getWrappedDriver();
+    }
+
+    @Override
+    public ByChained locators() {
+        return ByBuilder.fullLocator(element);
+    }
+
+    @Override
+    public By locator() {
+        return ByBuilder.locator(element);
+    }
+
+    @Override
+    public String toString() {
+        return getWrappedElement().toString();
     }
 }

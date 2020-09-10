@@ -77,6 +77,7 @@ public class Bowling {
                     if (frameIndex > 1) {
                         Frame secondPreviousFrame = frames[frameIndex - 2];
 
+                        // The 2nd previous frame is a double / triple strike
                         if (secondPreviousFrame.isStrike) {
                             secondPreviousFrame.extraScore = (10 + currentFrame.firstChance);
                         }

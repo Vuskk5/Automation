@@ -10,7 +10,6 @@ import org.selophane.elements.widget.TextBox;
 public class AppointmentDetails extends PageComponent {
     @Find(id = "severities")
     private Select severity;
-
     @Find(id = "reason")
     private TextBox description;
 

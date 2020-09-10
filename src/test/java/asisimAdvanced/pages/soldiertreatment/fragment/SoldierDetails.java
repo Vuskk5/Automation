@@ -8,13 +8,10 @@ import org.selophane.elements.widget.TextBox;
 public class SoldierDetails extends PageComponent {
     @Find(id = "soldierId")
     private TextBox soldierId;
-
     @Find(tagName = "button")
     private Element selectSoldier;
-
     @Find(id = "soldierRank")
     private TextBox soldierRank;
-
     @Find(id = "soldierName")
     private TextBox soldierName;
 
