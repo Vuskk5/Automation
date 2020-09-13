@@ -1,7 +1,6 @@
-package support;
+package asisimAdvanced.support;
 
 import asisimAdvanced.models.Soldier;
-import asisimAdvanced.support.DateUtil;
 
 public class DataProvider {
     @org.testng.annotations.DataProvider(name = "SoldierData")

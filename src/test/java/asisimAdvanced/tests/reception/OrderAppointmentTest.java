@@ -4,7 +4,6 @@ import asisimAdvanced.components.SweetAlert;
 import asisimAdvanced.components.navigation.NavigateTo;
 import asisimAdvanced.enums.AlertStatus;
 import asisimAdvanced.enums.Severities;
-import asisimAdvanced.managers.Authenticator;
 import asisimAdvanced.pages.soldiertreatment.ReceptionPage;
 import asisimAdvanced.tests.base.IndependentTest;
 import org.testng.annotations.Test;

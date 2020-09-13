@@ -5,9 +5,10 @@ import asisimAdvanced.components.navigation.NavigateTo;
 import asisimAdvanced.enums.AlertStatus;
 import asisimAdvanced.models.Soldier;
 import asisimAdvanced.pages.manage.soldiers.ManageSoldiersPage;
+import asisimAdvanced.support.DataProvider;
 import asisimAdvanced.tests.base.IndependentTest;
+import net.bsmch.exceptions.PageInstantiationException;
 import org.testng.annotations.Test;
-import support.DataProvider;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -18,8 +19,8 @@ public class AddSoldierTest extends IndependentTest {
     public void addSoldierWithValidDetails(Soldier soldier) {
         managementPage = NavigateTo.BasisManagement.soldiers();
         managementPage.add(soldier);
-
-        SweetAlert alert = managementPage.alert();
-        assertThat(alert.status()).as(alert.message()).isEqualTo(AlertStatus.SUCCESS);
+        throw new PageInstantiationException(managementPage.getClass(), new IllegalArgumentException(""));
+//        SweetAlert alert = managementPage.alert();
+//        assertThat(alert.status()).as(alert.message()).isEqualTo(AlertStatus.SUCCESS);
     }
 }

@@ -22,7 +22,7 @@ public class ClinicManager {
             Arrays.asList(
                 given()
                     .port(9000)
-                    .cookie(authenticate("developer", "developer"))
+                    .cookies(authenticate("developer", "developer"))
                 .when()
                     .get("/clinics").as(Clinic[].class)
             );

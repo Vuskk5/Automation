@@ -23,7 +23,7 @@ public class RankManager {
             Arrays.asList(
                     given()
                         .port(9000)
-                        .cookie(authenticate("developer", "developer"))
+                        .cookies(authenticate("developer", "developer"))
                     .when()
                         .get("/ranks").as(Rank[].class)
             );

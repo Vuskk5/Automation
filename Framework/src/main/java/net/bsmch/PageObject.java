@@ -2,6 +2,7 @@ package net.bsmch;
 
 import net.bsmch.components.api.ComponentFactory;
 import net.bsmch.drivermanager.DriverManager;
+import net.bsmch.exceptions.PageInstantiationException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,6 +14,7 @@ import org.selophane.elements.base.Element;
 import org.selophane.elements.base.ElementImpl;
 import org.selophane.elements.factory.api.ElementFactory;
 
+import javax.annotation.Nonnull;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -82,22 +84,40 @@ public abstract class PageObject {
         return convertedElements;
     }
 
+    /**
+     * Returns true if the given condition for the page "to be loaded" are met.
+     * @return {@code true} or {@code false} based of the page status.
+     */
+    public abstract boolean isAt();
+
+    /**
+     * Creates a new page of the given class, with the given class name via reflection.
+     * @param page The class to instantiate.
+     * @return The instantiated page.
+     * @exception PageInstantiationException when the given page could not be instantiated.
+     * <br>Check the nested exception for the following:
+     * <ul>
+     *     <li>{@link NoSuchMethodException} when there is no constructor with {@link WebDriver} parameter</li>
+     *     <li>{@link IllegalAccessException} when the constructor is not defined as public</li>
+     *     <li>{@link InstantiationException} when the class cannot be instantiated. Either be abstract class, interface, primitive type, or an array class</li>
+     *     <li>{@link InvocationTargetException} when an internal exception was thrown in the constructor</li>
+     * </ul>
+     */
+    public static <T extends PageObject> T page(Class<T> page) {
+        try {
+            Constructor<T> constructor = page.getConstructor(WebDriver.class);
+            return constructor.newInstance(DriverManager.getDriver());
+        }
+        catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException ex) {
+            throw new PageInstantiationException(page, ex);
+        }
+    }
+
     public WebDriver getDriver() {
         return driver;
     }
 
     public WebDriverWait driverWait() {
         return wait;
-    }
-
-    public static <T extends PageObject> T page(Class<T> clazz) {
-        try {
-            Constructor<T> con = clazz.getConstructor(WebDriver.class);
-            return con.newInstance(DriverManager.getDriver());
-        }
-        catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException ex) {
-            ex.printStackTrace();
-            return null;
-        }
     }
 }

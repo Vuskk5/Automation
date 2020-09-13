@@ -77,4 +77,19 @@ public class Soldier {
     public String clinicName() {
         return ClinicManager.byId(clinicId()).name();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (super.equals(obj)) {
+            return true;
+        }
+
+        if (obj instanceof Soldier) {
+            Soldier soldier = (Soldier) obj;
+
+            return this.id().equals(soldier.id());
+        }
+
+        return false;
+    }
 }

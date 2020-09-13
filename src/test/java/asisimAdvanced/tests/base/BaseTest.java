@@ -7,6 +7,9 @@ import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.awaitility.Awaitility.await;
+
 public abstract class BaseTest {
     private static final String CONNECTION = "http://";
     private static final String HOST = "localhost";
@@ -31,15 +34,24 @@ public abstract class BaseTest {
 
     protected void authenticate(String username, String password) {
         LoginPage login = openSystem();
-        login.driverWait().until(WebDriver -> login.isAt());
 
-        io.restassured.http.Cookie session = Authenticator.authenticate(username, password);
-        Cookie.Builder builder = new Cookie.Builder(session.getName(), session.getValue())
-                                            .domain(HOST)
-                                            .isHttpOnly(session.isHttpOnly())
-                                            .path(session.getPath());
+        await("").atMost(5, SECONDS)
+                 .until(login::isAt);
 
-        driver().manage().addCookie(builder.build());
+        io.restassured.http.Cookies cookies = Authenticator.authenticate(username, password);
+
+        cookies.forEach(cookie -> {
+                Cookie newCookie = new Cookie(cookie.getName(),
+                                            cookie.getValue(),
+                                            HOST,
+                                            cookie.getPath(),
+                                            cookie.getExpiryDate(),
+                                            cookie.isSecured(),
+                                            cookie.isHttpOnly());
+                driver.manage().addCookie(newCookie);
+            }
+        );
+
         driver.navigate().to(URL);
     }
 
