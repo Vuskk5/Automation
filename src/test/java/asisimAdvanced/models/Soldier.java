@@ -63,7 +63,7 @@ public class Soldier {
     }
 
     public String rankName() {
-        return RankManager.byId(rankId()).name();
+        return RankManager.getInstance().getById(rankId()).name();
     }
 
     public Long clinicId() {
@@ -75,7 +75,7 @@ public class Soldier {
     }
 
     public String clinicName() {
-        return ClinicManager.byId(clinicId()).name();
+        return ClinicManager.getInstance().getById(clinicId()).name();
     }
 
     @Override

@@ -1,18 +1,19 @@
 package asisimAdvanced.pages.soldiertreatment;
 
-import asisimAdvanced.enums.Severities;
 import asisimAdvanced.pages.general.MainPage;
 import asisimAdvanced.pages.soldiertreatment.fragment.AppointmentDetails;
 import asisimAdvanced.pages.soldiertreatment.fragment.AppointmentSelection;
 import asisimAdvanced.pages.soldiertreatment.fragment.SoldierDetails;
 import net.bsmch.components.api.ComponentFactory;
 import net.bsmch.findby.Find;
+import static org.awaitility.Awaitility.await;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.selophane.elements.base.Element;
 import org.selophane.elements.factory.api.ElementFactory;
 
-public class ReceptionPage extends MainPage {
+import static java.util.concurrent.TimeUnit.*;
+
+public class OrderAppointmentPage extends MainPage {
     @Find(xpath = "//legend[text() = \"פרטי חייל:\"]/parent::fieldset")
     private SoldierDetails soldierDetails;
 
@@ -25,48 +26,48 @@ public class ReceptionPage extends MainPage {
     @Find(attribute = "onclick", value = "createAppointment()")
     private Element createAppointment;
 
-    public ReceptionPage(WebDriver driver) {
+    public OrderAppointmentPage(WebDriver driver) {
         super(driver);
         ComponentFactory.initComponents(getDriver(), this);
-        ElementFactory.initElements(driver, this);
+        ElementFactory.initElements(getDriver(), this);
     }
 
-    public ReceptionPage selectSoldier(String soldierId) {
+    public OrderAppointmentPage chooseSoldier(String soldierId) {
         soldierDetails.setId(soldierId);
         soldierDetails.selectSoldier();
 
-        (new WebDriverWait(getDriver(), 10))
-                .withMessage("soldier details were not loaded in time")
-                .until(WebDriver -> soldierDetails.isLoaded());
+        await("Soldier details were not loaded in time").atMost(10, SECONDS)
+                                                        .until(soldierDetails::isLoaded);
+
         return this;
     }
 
-    public ReceptionPage selectSeverity(Severities severity) {
+    public OrderAppointmentPage selectSeverity(String severity) {
         appointmentDetails.selectSeverity(severity);
         return this;
     }
 
-    public ReceptionPage setDetails(String description) {
+    public OrderAppointmentPage setDetails(String description) {
         appointmentDetails.setDescription(description);
         return this;
     }
 
-    public ReceptionPage selectDate(int year, int month, int day) {
+    public OrderAppointmentPage selectDate(int year, int month, int day) {
         appointmentSelection.selectDate(year, month, day);
         return this;
     }
 
-    public ReceptionPage filterByDoctor(String doctorName) {
+    public OrderAppointmentPage filterByDoctor(String doctorName) {
         appointmentSelection.filterByDoctor(doctorName);
         return this;
     }
 
-    public ReceptionPage filterByClinic() {
+    public OrderAppointmentPage filterByClinic() {
         appointmentSelection.filterByClinic();
         return this;
     }
 
-    public ReceptionPage filterNothing() {
+    public OrderAppointmentPage filterNothing() {
         appointmentSelection.showAllAppointments();
         return this;
     }

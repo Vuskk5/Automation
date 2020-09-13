@@ -1,11 +1,13 @@
 package asisimAdvanced.pages.soldiertreatment.fragment;
 
-import asisimAdvanced.enums.Severities;
 import net.bsmch.components.PageComponent;
 import net.bsmch.findby.Find;
-import org.selophane.elements.base.Element;
+import org.awaitility.Awaitility;
+import org.openqa.selenium.By;
 import org.selophane.elements.widget.Select;
 import org.selophane.elements.widget.TextBox;
+
+import static net.bsmch.elementwait.ElementConditions.numberOfElementsToBeMoreThan;
 
 public class AppointmentDetails extends PageComponent {
     @Find(id = "severities")
@@ -13,8 +15,10 @@ public class AppointmentDetails extends PageComponent {
     @Find(id = "reason")
     private TextBox description;
 
-    public AppointmentDetails selectSeverity(Severities severity) {
-        this.severity.selectByVisibleText(severity.getValue());
+    public AppointmentDetails selectSeverity(String severityName) {
+        Awaitility.await().until(() -> severity.getOptions().size() > 1);
+        contextWait().until(driver -> severity.getOptions().size() > 1);
+        severity.selectByVisibleText(severityName);
         return this;
     }
 

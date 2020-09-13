@@ -26,14 +26,14 @@ public class SoldierDetails extends PageComponent {
     }
 
     public String rank() {
-        return soldierRank.getAttribute("value");
+        return soldierRank.value();
     }
 
     public String name() {
-        return soldierName.getAttribute("value");
+        return soldierName.value();
     }
 
     public boolean isLoaded() {
-        return !soldierRank.value().equals("") && !soldierName.value().equals("");
+        return !rank().equals("") && !name().equals("");
     }
 }

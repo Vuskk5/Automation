@@ -14,7 +14,7 @@ public class Clinic {
     }
 
     public Clinic(Long id) {
-        this(ClinicManager.byId(id));
+        this(ClinicManager.getInstance().getById(id));
     }
 
     public Clinic(Clinic clone) {

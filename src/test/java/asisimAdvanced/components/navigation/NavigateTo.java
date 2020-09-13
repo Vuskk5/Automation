@@ -2,6 +2,7 @@ package asisimAdvanced.components.navigation;
 
 import asisimAdvanced.pages.manage.doctors.ManageDoctorsPage;
 import asisimAdvanced.pages.manage.soldiers.ManageSoldiersPage;
+import asisimAdvanced.pages.soldiertreatment.OrderAppointmentPage;
 import org.openqa.selenium.By;
 
 import static asisimAdvanced.pages.manage.soldiers.ManageSoldiersPage.page;
@@ -11,7 +12,10 @@ public class NavigateTo {
         private static By menuLocator = By.xpath("//*[contains(text(), \"טיפול בחייל\")]/parent::li");
 
         public static Runnable reception       = () -> init().clickSubOption(By.linkText("קליטת חייל"));
-        public static Runnable newAppointment  = () -> init().clickSubOption(By.linkText("זימון תור"));
+        public static OrderAppointmentPage orderAppointment() {
+            init().clickSubOption(By.linkText("זימון תור"));
+            return page(OrderAppointmentPage.class);
+        }
         public static Runnable newReference    = () -> init().clickSubOption(By.linkText("מתן הפנייה"));
         public static Runnable newPrescription = () -> init().clickSubOption(By.linkText("מתן מרשם"));
 

@@ -10,31 +10,48 @@ import java.util.Optional;
 import static asisimAdvanced.managers.Authenticator.authenticate;
 import static io.restassured.RestAssured.given;
 
-public class ClinicManager {
-    static {
-        init();
-    }
+public class ClinicManager implements Manager<Clinic> {
+    private static final ThreadLocal<List<Clinic>> clinics = new ThreadLocal<>();
+    private static final ThreadLocal<ClinicManager> manager = new ThreadLocal<>();
 
-    private static List<Clinic> clinics;
-
-    private static void init() {
-        clinics =
-            Arrays.asList(
-                given()
-                    .port(9000)
-                    .cookies(authenticate("developer", "developer"))
-                .when()
-                    .get("/clinics").as(Clinic[].class)
-            );
-    }
-
-    public static Clinic byId(Long clinicId) {
-        Optional<Clinic> optionalClinic = clinics.stream().filter(clinic -> clinic.id().equals(clinicId)).findFirst();
-
-        if (optionalClinic.isPresent()) {
-            return optionalClinic.get();
+    public static ClinicManager getInstance() {
+        if (manager.get() == null) {
+            manager.set(new ClinicManager());
         }
 
-        throw new InvalidArgumentException("No such clinic id");
+        return manager.get();
+    }
+
+    @Override
+    public List<Clinic> requestAll() {
+        clinics.set(Arrays.asList(
+            given()
+                .port(9000)
+                .cookie(authenticate("developer", "developer"))
+            .when()
+                .get("/clinics").as(Clinic[].class)
+        ));
+
+        return clinics.get();
+    }
+
+    @Override
+    public List<Clinic> getAll() {
+        if (clinics.get() == null) {
+            requestAll();
+        }
+
+        return clinics.get();
+    }
+
+    @Override
+    public Clinic getById(Long clinicId) {
+        Optional<Clinic> optionalRank = getAll().stream().filter(clinic -> clinic.id().equals(clinicId)).findFirst();
+
+        if (optionalRank.isPresent()) {
+            return optionalRank.get();
+        }
+
+        throw new InvalidArgumentException("No such severity id");
     }
 }

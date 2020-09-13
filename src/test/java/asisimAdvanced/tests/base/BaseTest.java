@@ -3,7 +3,6 @@ package asisimAdvanced.tests.base;
 import asisimAdvanced.managers.Authenticator;
 import asisimAdvanced.pages.login.LoginPage;
 import net.bsmch.drivermanager.DriverManager;
-import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 
@@ -17,14 +16,19 @@ public abstract class BaseTest {
     private static final String URL = CONNECTION + HOST + ":" + PORT;
     private WebDriver driver;
 
+    /**
+     * Creates a new browsing session.
+     * @param context The TestNG @Test context
+     */
     protected void initialize(ITestContext context) {
         driver = DriverManager.startChrome();
 
         authenticate("developer", "developer");
-
-        driver().manage().window().maximize();
     }
 
+    /**
+     * Quits this driver, closing every associated window.
+     */
     protected void terminate() {
         if (driver() != null) {
             driver().quit();
@@ -32,24 +36,18 @@ public abstract class BaseTest {
         }
     }
 
+    /**
+     * Authenticates from the login page using GET /login request.
+     * @param username The username of the auth user
+     * @param password The password of the auth user
+     */
     protected void authenticate(String username, String password) {
-        LoginPage login = openSystem();
+        openSystem();
 
-        await("").atMost(5, SECONDS)
-                 .until(login::isAt);
+        io.restassured.http.Cookie cookie = Authenticator.authenticate(username, password);
 
-        io.restassured.http.Cookies cookies = Authenticator.authenticate(username, password);
-
-        cookies.forEach(cookie -> {
-                Cookie newCookie = new Cookie(cookie.getName(),
-                                            cookie.getValue(),
-                                            HOST,
-                                            cookie.getPath(),
-                                            cookie.getExpiryDate(),
-                                            cookie.isSecured(),
-                                            cookie.isHttpOnly());
-                driver.manage().addCookie(newCookie);
-            }
+        driver.manage().addCookie(
+                new org.openqa.selenium.Cookie(cookie.getName(), cookie.getValue())
         );
 
         driver.navigate().to(URL);
@@ -57,7 +55,14 @@ public abstract class BaseTest {
 
     protected LoginPage openSystem() {
         driver.navigate().to(URL);
-        return new LoginPage(driver());
+        driver.manage().window().maximize();
+
+        LoginPage loginPage = new LoginPage(driver());
+
+        await("").atMost(5, SECONDS)
+                 .until(loginPage::isAt);
+
+        return loginPage;
     }
 
     protected WebDriver driver() {
