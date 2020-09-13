@@ -30,4 +30,9 @@ public interface Element extends WebElement, WrapsElement, Locatable, WrapsDrive
      * @return By locator
      */
     By locator();
+
+    /**
+     * Relocates the nested WebElement
+     */
+    void relocate();
 }

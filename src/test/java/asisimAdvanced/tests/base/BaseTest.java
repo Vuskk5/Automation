@@ -31,7 +31,7 @@ public abstract class BaseTest {
 
     protected void authenticate(String username, String password) {
         LoginPage login = openSystem();
-        login.getWait().until(WebDriver -> login.isAt());
+        login.driverWait().until(WebDriver -> login.isAt());
 
         io.restassured.http.Cookie session = Authenticator.authenticate(username, password);
         Cookie.Builder builder = new Cookie.Builder(session.getName(), session.getValue())

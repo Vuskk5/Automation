@@ -27,7 +27,7 @@ public class LoginPage extends PageObject {
         this.password.set(password);
         loginButton.click();
 
-        getWait().until(visibilityOfElementLocated(By.id("navbar")));
+        driverWait().until(visibilityOfElementLocated(By.id("navbar")));
 
         return page(MainPage.class);
     }

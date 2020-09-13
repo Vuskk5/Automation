@@ -32,7 +32,7 @@ public abstract class AbstractManagementPage<T extends AbstractManagementPage<T,
 
     public T clickNew() {
         newButton.click();
-        getWait().until(visibilityOfElementLocated(By.id("new")));
+        driverWait().until(visibilityOfElementLocated(By.id("new")));
         return getThis();
     }
 

@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class ElementImpl implements Element {
 
-    private final WebElement element;
+    private WebElement element;
 
     /**
      * Creates a Element for a given WebElement.
@@ -138,6 +138,11 @@ public class ElementImpl implements Element {
     @Override
     public By locator() {
         return ByBuilder.locator(element);
+    }
+
+    @Override
+    public void relocate() {
+        this.element = getWrappedDriver().findElement(this.locators());
     }
 
     @Override

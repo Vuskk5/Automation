@@ -82,23 +82,12 @@ public abstract class PageObject {
         return convertedElements;
     }
 
-    protected boolean proxyField(String fieldName) {
-        try {
-            Field field = this.getClass().getDeclaredField(fieldName);
-            field.setAccessible(true);
-            DefaultFieldDecorator decorator = new DefaultFieldDecorator(new DefaultElementLocatorFactory(driver));
-            Object value = decorator.decorate(this.getClass().getClassLoader(), field);
-            field.set(this, value);
-            return true;
-        }
-        catch (NoSuchFieldException | IllegalAccessException ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
-
     public WebDriver getDriver() {
         return driver;
+    }
+
+    public WebDriverWait driverWait() {
+        return wait;
     }
 
     public static <T extends PageObject> T page(Class<T> clazz) {
@@ -110,9 +99,5 @@ public abstract class PageObject {
             ex.printStackTrace();
             return null;
         }
-    }
-
-    public <T extends FluentWait<WebDriver>> T getWait() {
-        return (T) wait;
     }
 }
