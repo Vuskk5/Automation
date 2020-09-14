@@ -6,7 +6,6 @@
 
     <groupId>net.bsmch</groupId>
     <artifactId>Bsmch</artifactId>
-    <packaging>jar</packaging>
     <version>1.0</version>
 
     <dependencies>

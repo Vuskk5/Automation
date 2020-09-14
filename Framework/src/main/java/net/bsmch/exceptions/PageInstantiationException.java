@@ -24,7 +24,7 @@ public class PageInstantiationException extends RuntimeException {
     @Override
     public String toString() {
         String message = "Could not instantiate page";
-        message += (page != null) ? " of type " + page.getName() : ".";
-        return message + cause.toString();
+        message += (page != null) ? " of type " + page.getName() : "";
+        return message + ".\nCaused by " + cause.toString();
     }
 }

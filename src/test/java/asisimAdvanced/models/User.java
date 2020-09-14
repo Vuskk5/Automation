@@ -1,11 +1,14 @@
 package asisimAdvanced.models;
 
-import io.restassured.path.json.JsonPath;
-import org.json.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
 
 public class User {
     private Long soldierId;
+    @Expose
     private String username;
+    @Expose
     private String password;
     private Long jobGroupId;
 
@@ -22,11 +25,11 @@ public class User {
     }
 
     public String asJsonCredentials() {
-        JSONObject json = new JSONObject();
-        json.put("username", this.username);
-        json.put("password", this.password);
+        Gson gson = new GsonBuilder()
+                            .excludeFieldsWithoutExposeAnnotation()
+                            .create();
 
-        return json.toString();
+        return gson.toJson(this);
     }
 
     public Long soldierId() {

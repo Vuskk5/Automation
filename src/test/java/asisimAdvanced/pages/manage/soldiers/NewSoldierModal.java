@@ -4,6 +4,7 @@ import asisimAdvanced.support.DateUtil;
 import net.bsmch.ByBuilder;
 import net.bsmch.components.PageComponent;
 import net.bsmch.findby.Find;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.support.pagefactory.ByChained;
 import org.selophane.elements.base.Element;
 import org.selophane.elements.widget.Select;

@@ -2,7 +2,6 @@ package asisimAdvanced.tests.reception;
 
 import asisimAdvanced.components.SweetAlert;
 import asisimAdvanced.components.navigation.NavigateTo;
-import asisimAdvanced.enums.AlertStatus;
 import asisimAdvanced.pages.soldiertreatment.OrderAppointmentPage;
 import asisimAdvanced.tests.base.IndependentTest;
 import org.testng.annotations.Test;
@@ -24,6 +23,6 @@ public class OrderAppointmentPageTest extends IndependentTest {
         SweetAlert alert = page.alert();
         assertThat(alert.status())
                     .as(alert.message())
-                    .isEqualTo(AlertStatus.SUCCESS);
+                    .isEqualTo(SweetAlert.Status.SUCCESS);
     }
 }

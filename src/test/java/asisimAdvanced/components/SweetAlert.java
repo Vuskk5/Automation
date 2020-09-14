@@ -1,9 +1,7 @@
 package asisimAdvanced.components;
 
-import asisimAdvanced.enums.AlertStatus;
 import net.bsmch.components.PageComponent;
 import net.bsmch.findby.Find;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.selophane.elements.base.Element;
 
 import static asisimAdvanced.support.CustomConditions.sweetAlertIsPresent;
@@ -20,7 +18,7 @@ public class SweetAlert extends PageComponent {
         super(context);
     }
 
-    public AlertStatus status() {
+    public Status status() {
         driverWait().withMessage("alert did not show")
                     .until(sweetAlertIsPresent());
 
@@ -28,7 +26,7 @@ public class SweetAlert extends PageComponent {
         String[] classes = displayedIcon.getAttribute("class").split(" ");
         String alertStatus = classes[1];
 
-        return AlertStatus.valueOf(alertStatus.toUpperCase());
+        return Status.valueOf(alertStatus.toUpperCase());
     }
 
     public String message() {
@@ -37,5 +35,13 @@ public class SweetAlert extends PageComponent {
 
     public boolean isDisplayed() {
         return getContext().isDisplayed();
+    }
+
+    public enum Status {
+        ERROR(),
+        WARNING(),
+        INFO(),
+        SUCCESS(),
+        CUSTOM();
     }
 }
