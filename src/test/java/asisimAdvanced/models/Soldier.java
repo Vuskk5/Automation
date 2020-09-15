@@ -2,16 +2,27 @@ package asisimAdvanced.models;
 
 import asisimAdvanced.managers.ClinicManager;
 import asisimAdvanced.managers.RankManager;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
 
 public class Soldier {
+    @JsonProperty("id")
     private Long id;
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("draftDate")
     private Date draftDate;
+    @JsonProperty("releaseDate")
     private Date releaseDate;
+    @JsonProperty("rankId")
     private Long rankId;
+    @JsonProperty("clinicId")
     private Long clinicId;
+
+    public Soldier() {
+
+    }
 
     public Soldier(Long id, String name, Date draftDate, Date releaseDate, Long rankId, Long clinicId) {
         this.id = id;
