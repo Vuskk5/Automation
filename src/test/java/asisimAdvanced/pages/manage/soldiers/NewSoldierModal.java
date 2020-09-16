@@ -1,11 +1,8 @@
 package asisimAdvanced.pages.manage.soldiers;
 
 import asisimAdvanced.support.DateUtil;
-import net.bsmch.ByBuilder;
 import net.bsmch.components.PageComponent;
 import net.bsmch.findby.Find;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.support.pagefactory.ByChained;
 import org.selophane.elements.base.Element;
 import org.selophane.elements.widget.Select;
 import org.selophane.elements.widget.TextBox;
@@ -38,12 +35,12 @@ public class NewSoldierModal extends PageComponent {
     }
 
     public NewSoldierModal setDraftDate(Date draftDate) {
-        newDraftDate.set(DateUtil.toString(draftDate));
+        newDraftDate.set(DateUtil.dateString(draftDate));
         return this;
     }
 
     public NewSoldierModal setReleaseDate(Date releaseDate) {
-        newReleaseDate.set(DateUtil.toString(releaseDate));
+        newReleaseDate.set(DateUtil.dateString(releaseDate));
         return this;
     }
 

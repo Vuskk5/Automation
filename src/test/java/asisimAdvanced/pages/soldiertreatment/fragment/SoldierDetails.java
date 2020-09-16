@@ -15,8 +15,8 @@ public class SoldierDetails extends PageComponent {
     @Find(id = "soldierName")
     private TextBox soldierName;
 
-    public SoldierDetails setId(String soldierId) {
-        this.soldierId.set(soldierId);
+    public SoldierDetails setId(Long soldierId) {
+        this.soldierId.set(soldierId.toString());
         return this;
     }
 

@@ -52,6 +52,6 @@ public class ClinicManager implements Manager<Clinic> {
             return optionalRank.get();
         }
 
-        throw new InvalidArgumentException("No such severity id");
+        throw new InvalidArgumentException("No such clinic id");
     }
 }

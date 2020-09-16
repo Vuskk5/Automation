@@ -1,17 +1,20 @@
 package asisimAdvanced.pages.soldiertreatment.fragment;
 
 import asisimAdvanced.components.DatePicker;
+import asisimAdvanced.support.DateUtil;
 import net.bsmch.components.PageComponent;
 import net.bsmch.findby.Find;
-import org.openqa.selenium.By;
 import org.openqa.selenium.InvalidArgumentException;
-import org.openqa.selenium.WebElement;
 import org.selophane.elements.base.Element;
 import org.selophane.elements.widget.Select;
 import org.selophane.elements.widget.Table;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import static org.awaitility.Awaitility.await;
 
 public class AppointmentSelection extends PageComponent {
     @Find(id = "specificDoctor")
@@ -52,25 +55,25 @@ public class AppointmentSelection extends PageComponent {
     private void showAvailableAppointments() {
         availableAppointmentsButton.click();
 
-        contextWait().until(WebElement -> $$(By.cssSelector("#schedule tr")).size() > 0);
+        await().until(() -> $$("#schedule tr").size() > 0);
     }
 
-    public AppointmentSelection selectDate(int year, int month, int day) {
-        datePicker.selectYear(year);
-        datePicker.selectMonth(month);
-        datePicker.selectDay(day);
+    public AppointmentSelection selectDate(Date date) {
+        datePicker.selectYear(DateUtil.get(Calendar.YEAR, date));
+        datePicker.selectMonth(DateUtil.get(Calendar.MONTH, date));
+        datePicker.selectDay(DateUtil.get(Calendar.DAY_OF_MONTH, date));
         return this;
     }
 
-    public AppointmentSelection selectAppointment(String doctorName, String time) {
+    public AppointmentSelection selectAppointment(String doctorName, Date time) {
         List<Element> appointmentsForDoctor = appointments.findRowsWith(doctorName);
 
         if (!appointmentsForDoctor.isEmpty()) {
             Optional<Element> appointment = appointmentsForDoctor.stream()
-                                 .filter(element -> element.getText().contains(time))
+                                 .filter(element -> element.getText().contains(DateUtil.timeString(time)))
                                  .findFirst();
 
-            appointment.ifPresent(WebElement::click);
+            appointment.ifPresent(Element::click);
             return this;
         }
         else {

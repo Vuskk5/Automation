@@ -11,6 +11,8 @@ import org.openqa.selenium.WebDriver;
 import org.selophane.elements.base.Element;
 import org.selophane.elements.factory.api.ElementFactory;
 
+import java.util.Date;
+
 import static java.util.concurrent.TimeUnit.*;
 
 public class OrderAppointmentPage extends MainPage {
@@ -32,7 +34,7 @@ public class OrderAppointmentPage extends MainPage {
         ElementFactory.initElements(getDriver(), this);
     }
 
-    public OrderAppointmentPage chooseSoldier(String soldierId) {
+    public OrderAppointmentPage chooseSoldier(Long soldierId) {
         soldierDetails.setId(soldierId);
         soldierDetails.selectSoldier();
 
@@ -52,8 +54,8 @@ public class OrderAppointmentPage extends MainPage {
         return this;
     }
 
-    public OrderAppointmentPage selectDate(int year, int month, int day) {
-        appointmentSelection.selectDate(year, month, day);
+    public OrderAppointmentPage selectDate(Date date) {
+        appointmentSelection.selectDate(date);
         return this;
     }
 
@@ -72,7 +74,7 @@ public class OrderAppointmentPage extends MainPage {
         return this;
     }
 
-    public void orderAppointment(String doctorName, String time) {
+    public void orderAppointment(String doctorName, Date time) {
         appointmentSelection.selectAppointment(doctorName, time);
         createAppointment.click();
     }
