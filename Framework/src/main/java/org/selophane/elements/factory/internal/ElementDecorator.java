@@ -55,7 +55,7 @@ public class ElementDecorator implements FieldDecorator {
         if (field.getDeclaringClass() == ElementImpl.class) {
             return null;
         }
-        
+
         ElementLocator locator = factory.createLocator(field);
         if (locator == null) {
             return null;
@@ -76,6 +76,13 @@ public class ElementDecorator implements FieldDecorator {
         }
     }
 
+    /**
+     * {@link #decorate(ClassLoader, Field)} function for usage with {@link net.bsmch.components.internal.ComponentDecorator}
+     * @param loader
+     * @param field
+     * @param locator
+     * @return
+     */
     public Object decorate(ClassLoader loader, Field field, ElementLocator locator) {
         if (field.getAnnotation(NoFind.class) != null) {
             return null;

@@ -1,4 +1,4 @@
-package net.bsmch;
+package net.bsmch.support;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;

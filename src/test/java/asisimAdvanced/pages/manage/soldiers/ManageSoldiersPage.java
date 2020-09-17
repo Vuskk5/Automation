@@ -4,13 +4,23 @@ import asisimAdvanced.models.Soldier;
 import asisimAdvanced.pages.manage.AbstractManagementPage;
 import net.bsmch.findby.Find;
 import org.openqa.selenium.WebDriver;
+import org.selophane.elements.widget.Table;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.awaitility.Awaitility.await;
 
 public class ManageSoldiersPage extends AbstractManagementPage<ManageSoldiersPage, Soldier> {
     @Find(id = "new")
     private NewSoldierModal newModal;
 
+    @Find(className = "table-hover")
+    private Table soldierTable;
+
     public ManageSoldiersPage(WebDriver driver) {
         super(driver);
+
+        await().atMost(5, SECONDS)
+                .until(() -> soldierTable.getRowCount() > 1);
     }
 
     @Override

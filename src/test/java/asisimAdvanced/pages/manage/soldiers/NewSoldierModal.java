@@ -1,6 +1,6 @@
 package asisimAdvanced.pages.manage.soldiers;
 
-import asisimAdvanced.support.DateUtil;
+import asisimAdvanced.support.util.DateUtil;
 import net.bsmch.components.PageComponent;
 import net.bsmch.findby.Find;
 import org.selophane.elements.base.Element;

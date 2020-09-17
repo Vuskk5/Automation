@@ -2,6 +2,7 @@ package asisimAdvanced.models;
 
 import asisimAdvanced.managers.SeverityManager;
 import asisimAdvanced.managers.SoldierManager;
+import asisimAdvanced.support.util.ToStringHelper;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -126,5 +127,20 @@ public class Appointment {
 
     public void doctorFinds(String doctorFinds) {
         this.doctorFinds = doctorFinds;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringHelper(this)
+                    .add("id", id)
+                    .add("soldierId", soldierId)
+                    .add("doctorId", doctorId)
+                    .add("severityId", severityId)
+                    .add("beginTime", beginTime)
+                    .add("reason", reason)
+                    .add("measurementId", measurementId)
+                    .add("soldierDesc", soldierDesc)
+                    .add("doctorFinds", doctorFinds)
+                    .toString();
     }
 }

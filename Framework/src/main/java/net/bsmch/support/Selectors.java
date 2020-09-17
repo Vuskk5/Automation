@@ -1,4 +1,4 @@
-package net.bsmch;
+package net.bsmch.support;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;

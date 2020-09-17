@@ -1,8 +1,16 @@
 package asisimAdvanced.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Severity {
+    @JsonProperty("id")
     private Long id;
+    @JsonProperty("name")
     private String name;
+
+    public Severity() {
+
+    }
 
     public Severity(Long id, String name) {
         this.id = id;

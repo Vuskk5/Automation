@@ -2,7 +2,7 @@ package practice.independentTestingSuite.tests.base;
 
 import practice.independentTestingSuite.pages.LandingPage;
 import support.drivermanager.DriverManager;
-import practice.independentTestingSuite.support.listeners.WebDriverListener;
+import asisimAdvanced.support.listeners.WebDriverListener;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestContext;

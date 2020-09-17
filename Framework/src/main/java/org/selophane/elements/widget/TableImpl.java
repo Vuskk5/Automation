@@ -3,7 +3,7 @@ package org.selophane.elements.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.bsmch.ElementConverter;
+import net.bsmch.support.ElementConverter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.selophane.elements.base.Element;

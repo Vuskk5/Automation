@@ -1,11 +1,13 @@
 package asisimAdvanced.pages.soldiertreatment.fragment;
 
 import asisimAdvanced.components.DatePicker;
-import asisimAdvanced.support.DateUtil;
+import asisimAdvanced.support.util.DateUtil;
 import net.bsmch.components.PageComponent;
 import net.bsmch.findby.Find;
+import org.omg.SendingContext.RunTime;
 import org.openqa.selenium.InvalidArgumentException;
 import org.selophane.elements.base.Element;
+import org.selophane.elements.widget.Label;
 import org.selophane.elements.widget.Select;
 import org.selophane.elements.widget.Table;
 
@@ -17,12 +19,12 @@ import java.util.Optional;
 import static org.awaitility.Awaitility.await;
 
 public class AppointmentSelection extends PageComponent {
-    @Find(id = "specificDoctor")
-    private Element doctorFilter;
-    @Find(id = "clinicDoctors")
-    private Element clinicFilter;
-    @Find(id = "allDoctors")
-    private Element showAll;
+    @Find(attribute = "for", value = "specificDoctor")
+    private Label doctorFilter;
+    @Find(attribute = "for", value = "clinicDoctors")
+    private Label clinicFilter;
+    @Find(attribute = "for", value = "allDoctors")
+    private Label showAll;
     @Find(id = "doctors")
     private Select doctors;
     @Find(attribute = "onclick", value = "getAppointments()")
@@ -60,7 +62,7 @@ public class AppointmentSelection extends PageComponent {
 
     public AppointmentSelection selectDate(Date date) {
         datePicker.selectYear(DateUtil.get(Calendar.YEAR, date));
-        datePicker.selectMonth(DateUtil.get(Calendar.MONTH, date));
+        datePicker.selectMonth(DateUtil.get(Calendar.MONTH, date) + 1);
         datePicker.selectDay(DateUtil.get(Calendar.DAY_OF_MONTH, date));
         return this;
     }
@@ -74,6 +76,7 @@ public class AppointmentSelection extends PageComponent {
                                  .findFirst();
 
             appointment.ifPresent(Element::click);
+            appointment.orElseThrow(() -> new RuntimeException("No available appointment"));
             return this;
         }
         else {

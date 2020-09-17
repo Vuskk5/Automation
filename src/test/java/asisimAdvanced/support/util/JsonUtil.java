@@ -1,6 +1,6 @@
-package asisimAdvanced.support;
+package asisimAdvanced.support.util;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedReader;
@@ -58,6 +58,16 @@ public class JsonUtil {
         }
         catch (IOException ex) {
             throw new RuntimeException("Error parsing json to array.", ex);
+        }
+    }
+
+    public static String objectToJson(Object object) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(object);
+        }
+        catch (JsonProcessingException ex) {
+            throw new RuntimeException(ex);
         }
     }
 

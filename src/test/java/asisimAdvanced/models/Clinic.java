@@ -1,11 +1,19 @@
 package asisimAdvanced.models;
 
 import asisimAdvanced.managers.ClinicManager;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Clinic {
+    @JsonProperty("id")
     private Long id;
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("address")
     private String address;
+
+    public Clinic() {
+
+    }
 
     public Clinic(Long id, String name, String address) {
         this.id = id;

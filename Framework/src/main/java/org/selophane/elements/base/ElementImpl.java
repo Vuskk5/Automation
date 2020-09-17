@@ -1,11 +1,13 @@
 package org.selophane.elements.base;
 
-import net.bsmch.ByBuilder;
+import net.bsmch.support.ByBuilder;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Coordinates;
 import org.openqa.selenium.interactions.Locatable;
 import org.openqa.selenium.support.pagefactory.ByChained;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 /**
@@ -143,6 +145,17 @@ public class ElementImpl implements Element {
     @Override
     public void relocate() {
         this.element = getWrappedDriver().findElement(this.locators());
+    }
+
+    @Override
+    public <T extends Element> T as(Class<T> type) {
+        try {
+            Constructor<T> constructor = type.getConstructor(WebElement.class);
+            return constructor.newInstance(getWrappedElement());
+        }
+        catch (InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException ex) {
+            throw new RuntimeException("Could not instantiate element", ex);
+        }
     }
 
     @Override

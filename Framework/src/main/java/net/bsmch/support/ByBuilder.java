@@ -1,4 +1,4 @@
-package net.bsmch;
+package net.bsmch.support;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;

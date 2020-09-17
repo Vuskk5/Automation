@@ -1,7 +1,7 @@
 package net.bsmch.components;
 
-import net.bsmch.ElementConverter;
-import net.bsmch.Selectors;
+import net.bsmch.support.ElementConverter;
+import net.bsmch.support.Selectors;
 import net.bsmch.elementwait.WebElementWait;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

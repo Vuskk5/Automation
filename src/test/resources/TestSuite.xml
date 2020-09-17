@@ -1,12 +1,17 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Independent Suite" verbose="1">
+<suite name="Asisim Automated" verbose="1">
     <listeners>
-        <listener class-name="practice.independentTestingSuite.support.listeners.TestListener"/>
+        <listener class-name="asisimAdvanced.support.listeners.TestListener"/>
     </listeners>
 
-    <test name="Submit Valid Requirements" >
+    <test name="Add Soldier Test" enabled="false">
         <classes>
-            <class name="practice.independentTestingSuite.tests.SubmitRequirementsTest"/>
+            <class name="asisimAdvanced.tests.manage.AddSoldierTest"/>
+        </classes>
+    </test>
+    <test name="Order Appointment" >
+        <classes>
+            <class name="asisimAdvanced.tests.reception.OrderAppointmentPageTest"/>
         </classes>
     </test>
 </suite>

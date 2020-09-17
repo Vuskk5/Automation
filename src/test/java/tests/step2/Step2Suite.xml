@@ -1,7 +1,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Step 2 Suite" verbose="1">
     <listeners>
-        <listener class-name="practice.independentTestingSuite.support.listeners.TestListener"/>
+        <listener class-name="asisimAdvanced.support.listeners.TestListener"/>
     </listeners>
 
     <test name="Step 2 Test" >

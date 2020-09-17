@@ -2,7 +2,9 @@ package net.bsmch;
 
 import net.bsmch.components.api.ComponentFactory;
 import net.bsmch.drivermanager.DriverManager;
+import net.bsmch.exceptions.ElementInstantiationException;
 import net.bsmch.exceptions.PageInstantiationException;
+import net.bsmch.support.Selectors;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -11,6 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.selophane.elements.base.Element;
 import org.selophane.elements.base.ElementImpl;
 import org.selophane.elements.factory.api.ElementFactory;
+import org.selophane.elements.widget.TableImpl;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -86,6 +89,23 @@ public abstract class PageObject {
         return new ElementImpl(getDriver().findElement(locator));
     }
 
+    protected <T extends Element> List<T> $$(By locator, Class<T> type) {
+        List<WebElement> elements = driver.findElements(locator);
+        List<T> newList = new ArrayList<>();
+
+        for (WebElement element : elements) {
+            newList.add(element(element, type));
+        }
+
+        return newList;
+    }
+
+    protected <T extends Element> List<T> $$(String xpathOrCssSelector, Class<T> type) {
+        By locator = Selectors.isXPath(xpathOrCssSelector) ? By.xpath(xpathOrCssSelector)
+                : By.cssSelector(xpathOrCssSelector);
+        return $$(locator, type);
+    }
+
     /**
      * Find all elements within the current page using the given mechanism.
      * This method is affected by the 'implicit wait' times in force at the time of execution. When
@@ -116,7 +136,7 @@ public abstract class PageObject {
      */
     protected List<Element> $$(By locator) {
         List<WebElement> seleniumElements = getDriver().findElements(locator);
-        List<Element> convertedElements = new ArrayList<>();
+        List<org.selophane.elements.base.Element> convertedElements = new ArrayList<>();
         seleniumElements.forEach(element -> convertedElements.add(new ElementImpl(element)));
 
         return convertedElements;
@@ -148,6 +168,16 @@ public abstract class PageObject {
         }
         catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException ex) {
             throw new PageInstantiationException(page, ex);
+        }
+    }
+
+    private static  <T extends Element> T element(WebElement element, Class<T> type) {
+        try {
+            Constructor<T> constructor = type.getConstructor(WebElement.class);
+            return constructor.newInstance(element);
+        }
+        catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException ex) {
+            throw new ElementInstantiationException(type, ex);
         }
     }
 

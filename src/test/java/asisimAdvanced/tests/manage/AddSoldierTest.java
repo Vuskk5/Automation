@@ -4,16 +4,16 @@ import asisimAdvanced.components.SweetAlert;
 import asisimAdvanced.components.navigation.NavigateTo;
 import asisimAdvanced.models.Soldier;
 import asisimAdvanced.pages.manage.soldiers.ManageSoldiersPage;
-import asisimAdvanced.support.DataClass;
-import asisimAdvanced.tests.base.IndependentTest;
+import asisimAdvanced.support.util.DataUtil;
+import asisimAdvanced.tests.base.DataDrivenTest;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AddSoldierTest extends IndependentTest {
+public class AddSoldierTest extends DataDrivenTest {
     private ManageSoldiersPage managementPage;
 
-    @Test(dataProvider = "SoldierData", dataProviderClass = DataClass.class)
+    @Test(dataProvider = "SoldierData", dataProviderClass = DataUtil.class)
     public void addSoldierWithValidDetails(Soldier soldier) {
         managementPage = NavigateTo.BasisManagement.soldiers();
         managementPage.add(soldier);

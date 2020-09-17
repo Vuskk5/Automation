@@ -1,10 +1,10 @@
-package asisimAdvanced.support;
+package asisimAdvanced.support.util;
 
 import asisimAdvanced.models.Appointment;
 import asisimAdvanced.models.Soldier;
 import org.testng.annotations.DataProvider;
 
-public class DataClass {
+public class DataUtil {
     @DataProvider(name = "SoldierData")
     public Object[][] getSoldierData() {
         return JsonUtil.getDataMatrix("test-data/SoldierData.json", Soldier.class);

@@ -35,4 +35,6 @@ public interface Element extends WebElement, WrapsElement, Locatable, WrapsDrive
      * Relocates the nested WebElement
      */
     void relocate();
+
+    <T extends Element> T as(Class<T> type);
 }
