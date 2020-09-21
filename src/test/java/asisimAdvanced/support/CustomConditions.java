@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.selophane.elements.widget.Select;
 
 public class CustomConditions {
-    public static CustomCondition<Boolean> sweetAlertIsPresent() {
+    public static CustomCondition<Boolean> sweetAlertIsDisplayed() {
         return new CustomCondition<Boolean>() {
             @Override
             public Boolean apply(SearchContext context) {

@@ -32,6 +32,7 @@ public class ExtentUtil {
         String screenshotName = result.getName() + result.getStartMillis();
         MediaEntityModelProvider screenshot =
                 Screenshot.captureScreen(screenshotName, DriverManager.getDriver());
+
         String screenshotLabel = MarkupHelper.createLabel("Screenshot", ExtentColor.RED).getMarkup() + "<br>";
 
         test.fail(screenshotLabel, screenshot);

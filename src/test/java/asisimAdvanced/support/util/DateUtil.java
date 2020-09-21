@@ -1,5 +1,6 @@
 package asisimAdvanced.support.util;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,6 +16,11 @@ public class DateUtil {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, date);
         return new Date(calendar.getTimeInMillis());
+    }
+
+    public static String format(Date date, String pattern) {
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+        return formatter.format(date);
     }
 
     public static String dateString(Date date) {

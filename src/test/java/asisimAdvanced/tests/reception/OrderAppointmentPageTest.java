@@ -4,14 +4,14 @@ import asisimAdvanced.components.SweetAlert;
 import asisimAdvanced.components.navigation.NavigateTo;
 import asisimAdvanced.models.Appointment;
 import asisimAdvanced.pages.soldiertreatment.OrderAppointmentPage;
-import asisimAdvanced.support.util.DataUtil;
+import asisimAdvanced.support.util.DataManager;
 import asisimAdvanced.tests.base.DataDrivenTest;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class OrderAppointmentPageTest extends DataDrivenTest {
-    @Test(dataProvider = "NewAppointmentData", dataProviderClass = DataUtil.class)
+    @Test(dataProvider = "NewAppointmentData", dataProviderClass = DataManager.class)
     public void orderAppointmentWithValidDetails(Appointment appointment) {
         OrderAppointmentPage page = NavigateTo.SoldierTreatment.orderAppointment();
 

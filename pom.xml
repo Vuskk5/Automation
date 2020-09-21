@@ -4,10 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
-    <artifactId>MainProject</artifactId>
-    <packaging>jar</packaging>
+    <groupId>bsmch.kfir</groupId>
+    <artifactId>AsisimAutomation</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+
+    <modules>
+        <module>Framework</module>
+        <module>Bsmch</module>
+    </modules>
 
     <dependencies>
         <!-- Project Module -->
@@ -38,6 +43,17 @@
             <groupId>com.aventstack</groupId>
             <artifactId>extentreports-testng-adapter</artifactId>
             <version>1.0.7</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.aventstack</groupId>
+                    <artifactId>extentreports</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports</artifactId>
+            <version>4.1.7</version>
         </dependency>
         <!-- AssertJ -->
         <dependency>
@@ -87,6 +103,31 @@
 
     <build>
         <plugins>
+        <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>2.6</version>
+            <executions>
+                <execution>
+                    <id>copy-resources</id>
+                    <phase>process-classes</phase>
+                    <goals>
+                        <goal>copy-resources</goal>
+                    </goals>
+                    <configuration>
+                        <outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
+                        <encoding>UTF-8</encoding>
+                        <resources>
+                            <resource>
+                                <directory>${basedir}/src/test/resources</directory>
+                                <includes>
+                                    <include>**/*</include>
+                                </includes>
+                            </resource>
+                        </resources>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>

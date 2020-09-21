@@ -4,17 +4,19 @@ import asisimAdvanced.components.DatePicker;
 import asisimAdvanced.support.util.DateUtil;
 import net.bsmch.components.PageComponent;
 import net.bsmch.findby.Find;
-import org.omg.SendingContext.RunTime;
 import org.openqa.selenium.InvalidArgumentException;
 import org.selophane.elements.base.Element;
 import org.selophane.elements.widget.Label;
 import org.selophane.elements.widget.Select;
 import org.selophane.elements.widget.Table;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.awaitility.Awaitility.await;
 
@@ -40,7 +42,7 @@ public class AppointmentSelection extends PageComponent {
         return this;
     }
 
-    public AppointmentSelection filterByClinic() {
+    public AppointmentSelection filterByClinicDoctors() {
         clinicFilter.click();
         showAvailableAppointments();
         return this;
@@ -48,7 +50,7 @@ public class AppointmentSelection extends PageComponent {
 
     public AppointmentSelection filterByDoctor(String doctorName) {
         doctorFilter.click();
-        contextWait().until((WebElement) -> doctors.getOptions().size() > 1);
+        await().until(() -> doctors.getOptions().size() > 1);
         doctors.selectByVisibleText(doctorName);
         showAvailableAppointments();
         return this;
@@ -60,27 +62,30 @@ public class AppointmentSelection extends PageComponent {
         await().until(() -> $$("#schedule tr").size() > 0);
     }
 
-    public AppointmentSelection selectDate(Date date) {
-        datePicker.selectYear(DateUtil.get(Calendar.YEAR, date));
-        datePicker.selectMonth(DateUtil.get(Calendar.MONTH, date) + 1);
-        datePicker.selectDay(DateUtil.get(Calendar.DAY_OF_MONTH, date));
+    public AppointmentSelection selectDate(LocalDateTime date) {
+        datePicker.selectYear(date.getYear());
+        datePicker.selectMonth(date.getMonthValue());
+        datePicker.selectDay(date.getDayOfMonth());
         return this;
     }
 
-    public AppointmentSelection selectAppointment(String doctorName, Date time) {
+    public AppointmentSelection selectAppointment(String doctorName, LocalTime time) {
         List<Element> appointmentsForDoctor = appointments.findRowsWith(doctorName);
 
-        if (!appointmentsForDoctor.isEmpty()) {
-            Optional<Element> appointment = appointmentsForDoctor.stream()
-                                 .filter(element -> element.getText().contains(DateUtil.timeString(time)))
-                                 .findFirst();
+        String formattedTime = time.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
-            appointment.ifPresent(Element::click);
-            appointment.orElseThrow(() -> new RuntimeException("No available appointment"));
-            return this;
+        if (!appointmentsForDoctor.isEmpty()) {
+
+            List<Element> appointmentsAtTime = appointmentsForDoctor.stream()
+                                                .filter(element -> element.getText().contains(formattedTime))
+                                                .collect(Collectors.toList());
+
+            if (!appointmentsAtTime.isEmpty()) {
+                appointmentsAtTime.get(0).click();
+                return this;
+            }
         }
-        else {
-            throw new InvalidArgumentException("No available appointment for '" + doctorName + "' at '" + time + "'");
-        }
+
+        throw new InvalidArgumentException("No available appointment for doctor '" + doctorName + "' at '" + formattedTime + "'");
     }
 }

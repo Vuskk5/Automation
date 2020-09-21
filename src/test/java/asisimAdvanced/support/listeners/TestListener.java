@@ -1,8 +1,12 @@
 package asisimAdvanced.support.listeners;
 
 import asisimAdvanced.support.util.ExtentUtil;
+import asisimAdvanced.support.util.json.JsonUtil;
 import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.service.ExtentService;
+import com.aventstack.extentreports.markuputils.CodeLanguage;
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.Markup;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
 import com.aventstack.extentreports.service.ExtentTestManager;
 import com.aventstack.extentreports.testng.listener.ExtentITestListenerAdapter;
 import net.bsmch.drivermanager.DriverManager;
@@ -10,26 +14,37 @@ import net.bsmch.util.ExceptionUtil;
 import net.bsmch.util.StringUtil;
 import org.testng.ITestResult;
 
-;
-
 public class TestListener extends ExtentITestListenerAdapter {
-    static {
-        System.setProperty("extent.reporter.spark.start", "true");
-        System.setProperty("extent.reporter.spark.config", "src/test/resources/spark-config.xml");
-        System.setProperty("extent.reporter.spark.out", "test-output/SparkReport/index.html");
-    }
-
     @Override
     public synchronized void onTestStart(ITestResult result) {
-        ExtentTest test = ExtentTestManager.createMethod(result);
-        String testName = StringUtil.toTitleCase(result.getName());
-        test.getModel().setName(testName);
-        ExtentService.getInstance().flush();
+        ExtentTestManager.createMethod(result);
+
+        for (Object parameter : result.getParameters()) {
+            Markup objectName = MarkupHelper.createLabel(parameter.getClass().getName(), ExtentColor.PURPLE);
+            Markup code = MarkupHelper.createCodeBlock(JsonUtil.objectToJson(parameter), CodeLanguage.JSON);
+            ExtentTestManager.getTest().info(objectName.getMarkup() + "<br>" + code.getMarkup());
+        }
     }
 
     @Override
-    public synchronized void onTestFailure(ITestResult iTestResult) {
-        Throwable exception = ExceptionUtil.filterStackTrace(iTestResult.getThrowable());
+    public synchronized void onTestSuccess(ITestResult result) {
+        ExtentTestManager.log(result);
+
+        ExtentTest test = ExtentTestManager.getTest();
+        renameTest(test, StringUtil.toTitleCase(result.getName()));
+    }
+
+    @Override
+    public synchronized void onTestSkipped(ITestResult result) {
+        ExtentTestManager.log(result);
+
+        ExtentTest test = ExtentTestManager.getTest();
+        renameTest(test, StringUtil.toTitleCase(result.getName()));
+    }
+
+    @Override
+    public synchronized void onTestFailure(ITestResult result) {
+        Throwable exception = ExceptionUtil.filterStackTrace(result.getThrowable());
 
         ExtentTest test = ExtentTestManager.getTest();
 
@@ -38,7 +53,13 @@ public class TestListener extends ExtentITestListenerAdapter {
 
         // Add a screenshot
         if (DriverManager.getDriver() != null) {
-            ExtentUtil.addScreenshotToTest(test, iTestResult);
+            ExtentUtil.addScreenshotToTest(test, result);
         }
+
+        renameTest(test, StringUtil.toTitleCase(result.getName()));
+    }
+
+    private void renameTest(ExtentTest test, String newName) {
+        test.getModel().setName(newName);
     }
 }

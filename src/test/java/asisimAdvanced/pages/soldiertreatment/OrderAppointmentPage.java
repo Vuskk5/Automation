@@ -4,6 +4,7 @@ import asisimAdvanced.pages.general.MainPage;
 import asisimAdvanced.pages.soldiertreatment.fragment.AppointmentDetails;
 import asisimAdvanced.pages.soldiertreatment.fragment.AppointmentSelection;
 import asisimAdvanced.pages.soldiertreatment.fragment.SoldierDetails;
+import jxl.write.DateTime;
 import net.bsmch.components.api.ComponentFactory;
 import net.bsmch.findby.Find;
 import static org.awaitility.Awaitility.await;
@@ -11,6 +12,9 @@ import org.openqa.selenium.WebDriver;
 import org.selophane.elements.base.Element;
 import org.selophane.elements.factory.api.ElementFactory;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import static java.util.concurrent.TimeUnit.*;
@@ -54,7 +58,7 @@ public class OrderAppointmentPage extends MainPage {
         return this;
     }
 
-    public OrderAppointmentPage selectDate(Date date) {
+    public OrderAppointmentPage selectDate(LocalDateTime date) {
         appointmentSelection.selectDate(date);
         return this;
     }
@@ -65,7 +69,7 @@ public class OrderAppointmentPage extends MainPage {
     }
 
     public OrderAppointmentPage filterByClinic() {
-        appointmentSelection.filterByClinic();
+        appointmentSelection.filterByClinicDoctors();
         return this;
     }
 
@@ -74,7 +78,9 @@ public class OrderAppointmentPage extends MainPage {
         return this;
     }
 
-    public void orderAppointment(String doctorName, Date time) {
+    public void orderAppointment(String doctorName, LocalDateTime beginTime) {
+        LocalTime time = beginTime.toLocalTime();
+
         appointmentSelection.selectAppointment(doctorName, time);
         createAppointment.click();
     }

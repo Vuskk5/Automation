@@ -6,7 +6,7 @@ import asisimAdvanced.support.util.ToStringHelper;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Appointment {
@@ -19,7 +19,7 @@ public class Appointment {
     @JsonProperty("severityId")
     private Long severityId;
     @JsonProperty("beginTime")
-    private Date beginTime;
+    private LocalDateTime beginTime;
     @JsonProperty("reason")
     private String reason;
     @JsonProperty("measurementId")
@@ -33,7 +33,7 @@ public class Appointment {
 
     }
 
-    public Appointment(Long id, Long soldierId, Long doctorId, Long severityId, Date beginTime, String reason, Long measurementId, String soldierDesc, String doctorFinds) {
+    public Appointment(Long id, Long soldierId, Long doctorId, Long severityId, LocalDateTime beginTime, String reason, Long measurementId, String soldierDesc, String doctorFinds) {
         this.id = id;
         this.soldierId = soldierId;
         this.doctorId = doctorId;
@@ -89,11 +89,11 @@ public class Appointment {
         return SeverityManager.getInstance().getById(severityId).name();
     }
 
-    public Date beginTime() {
+    public LocalDateTime beginTime() {
         return beginTime;
     }
 
-    public void beginTime(Date beginTime) {
+    public void beginTime(LocalDateTime beginTime) {
         this.beginTime = beginTime;
     }
 

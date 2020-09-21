@@ -1,7 +1,8 @@
-package asisimAdvanced.support.util;
+package asisimAdvanced.support.util.json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,10 +10,20 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 public class JsonUtil {
+    private static final ObjectMapper mapper;
+
+    static {
+        mapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(LocalDateTime.class, new JsonDateSerializer());
+        module.addDeserializer(LocalDateTime.class, new JsonDateDeserializer());
+        mapper.registerModule(module);
+    }
+
     @SuppressWarnings("unchecked")
     private static <T> T[][] arrayToMatrix(T[] array, Class<T> arrayType, int innerArrayLength) {
         T[][] matrix = (T[][]) Array.newInstance(array.getClass(), array.length);
@@ -49,8 +60,7 @@ public class JsonUtil {
     private static <T> T[] parseJsonArray(String json, Class<T> classOnWhichArrayIsDefined) {
         try {
             Class<T[]> arrayClass = (Class<T[]>) Class.forName("[L" + classOnWhichArrayIsDefined.getName() + ";");
-            ObjectMapper mapper = new ObjectMapper()
-                                    .setDateFormat(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"));
+
             return mapper.readValue(json, arrayClass);
         }
         catch (ClassNotFoundException ex) {
@@ -62,7 +72,6 @@ public class JsonUtil {
     }
 
     public static String objectToJson(Object object) {
-        ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.writeValueAsString(object);
         }

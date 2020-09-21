@@ -4,7 +4,7 @@ import net.bsmch.components.PageComponent;
 import net.bsmch.findby.Find;
 import org.selophane.elements.base.Element;
 
-import static asisimAdvanced.support.CustomConditions.sweetAlertIsPresent;
+import static asisimAdvanced.support.CustomConditions.sweetAlertIsDisplayed;
 
 public class SweetAlert extends PageComponent {
     @Find(tagName = "h2")
@@ -20,7 +20,7 @@ public class SweetAlert extends PageComponent {
 
     public Status status() {
         driverWait().withMessage("alert did not show")
-                    .until(sweetAlertIsPresent());
+                    .until(sweetAlertIsDisplayed());
 
         Element displayedIcon = $(".icon[style=\"display: block;\"]");
         String[] classes = displayedIcon.getAttribute("class").split(" ");

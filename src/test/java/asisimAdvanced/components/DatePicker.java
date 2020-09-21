@@ -11,10 +11,10 @@ import java.util.stream.IntStream;
 
 public class DatePicker extends PageComponent {
     @Find(attribute = "data-handler", value = "next")
-    private Element next;
+    private Element nextMonth;
 
     @Find(attribute = "data-handler", value = "prev")
-    private Element prev;
+    private Element previousMonth;
 
     private By yearLocator = By.className("ui-datepicker-year");
     private By monthLocator = By.className("ui-datepicker-month");
@@ -24,31 +24,36 @@ public class DatePicker extends PageComponent {
     }
 
     public DatePicker selectYear(int year) {
-        int currentYear = Integer.parseInt(getContext().findElement(yearLocator).getText());
+        int currentYear = Integer.parseInt($(yearLocator).getText());
 
         if (currentYear != year) {
-            WebElement move = (currentYear < year) ? next : prev;
+            WebElement move = (currentYear < year) ? nextMonth : previousMonth;
 
-            IntStream.rangeClosed(1, 12 * (currentYear - year))
-                     .forEach(i -> move.click());
+            int monthDifference = 12 * Math.abs(currentYear - year);
+
+            for (int i = 0; i < monthDifference; i++) {
+                move.click();
+            }
         }
 
         return this;
     }
 
-    public DatePicker selectMonth(String month) {
-        int numericMonth = Month.valueOf(month.toUpperCase()).getValue();
-        return selectMonth(numericMonth);
+    public DatePicker selectMonth(String monthName) {
+        // Get 1-based month index
+        int monthIndex = Month.valueOf(monthName.toUpperCase()).getValue();
+        return selectMonth(monthIndex);
     }
 
     public DatePicker selectMonth(int month) {
-        int currentMonth = Month.valueOf(getContext().findElement(monthLocator).getText().toUpperCase()).getValue();
+        int currentMonth = Month.valueOf($(monthLocator).getText().toUpperCase()).getValue();
 
         if (currentMonth != month) {
-            WebElement move = (currentMonth < month) ? next : prev;
+            Element move = (currentMonth < month) ? nextMonth : previousMonth;
 
-            IntStream.rangeClosed(1, Math.abs(currentMonth - month))
-                     .forEach(i -> move.click());
+            for (int i = 0; i < Math.abs(currentMonth - month); i++) {
+                move.click();
+            }
         }
 
         return this;
@@ -59,7 +64,7 @@ public class DatePicker extends PageComponent {
     }
 
     public DatePicker selectDay(int day) {
-        getContext().findElement(By.xpath("//a[text() = \"" + day + "\"]")).click();
+        $("//a[text() = \"" + day + "\"]").click();
 
         return this;
     }

@@ -20,12 +20,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Framework" />
         <module name="Bsmch" />
-        <module name="Automation" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Bsmch" target="1.8" />
-      <module name="Framework" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>

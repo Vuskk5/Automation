@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 public class ExceptionUtil {
     private static final String[] filters = {
             "org.testng", "com.intellij", "sun.reflect", "java.lang",
-            "java.util", "org.openqa.selenium", "com.fasterxml.jackson"
+            "java.util", "org.openqa.selenium", "com.fasterxml.jackson", "java.time"
     };
 
     /**
