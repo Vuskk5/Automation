@@ -8,6 +8,12 @@
     <artifactId>Bsmch</artifactId>
     <version>1.0</version>
 
+    <parent>
+        <groupId>bsmch.kfir</groupId>
+        <artifactId>AsisimAutomation</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
     <dependencies>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>

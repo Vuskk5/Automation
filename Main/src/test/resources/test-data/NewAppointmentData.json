@@ -1,0 +1,16 @@
+[
+  {
+    "soldierId": 8628491,
+    "doctorId": 8702558,
+    "severityId": 1,
+    "beginTime": "17-10-2020 10:10:00",
+    "reason": "ללא סיבה"
+  },
+  {
+    "soldierId": 8628491,
+    "doctorId": 8702558,
+    "severityId": 2,
+    "beginTime": "01-11-2020 10:10:00",
+    "reason": "ללא סיבה"
+  }
+]

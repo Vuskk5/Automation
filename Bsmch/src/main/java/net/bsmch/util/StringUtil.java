@@ -12,6 +12,7 @@ public class StringUtil {
 
     /**
      * Converts a camelCase string to Title Case.
+     * Example: "toString", would become "To String"
      * @param text The text to convert.
      * @return The new Text.
      */
@@ -22,6 +23,8 @@ public class StringUtil {
         for (String word : camelCaseWords) {
             testName.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1)).append(" ");
         }
+
+        testName.deleteCharAt(testName.length() - 1);
 
         return (testName.toString());
     }

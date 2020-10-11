@@ -20,6 +20,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Framework" />
         <module name="Bsmch" />
+        <module name="Main" />
       </profile>
     </annotationProcessing>
   </component>

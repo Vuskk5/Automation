@@ -63,6 +63,7 @@ public class ComponentDecorator implements FieldDecorator {
             Object element = decorator.decorate(PageComponent.class.getClassLoader(), contextField, locator);
 
             PageComponent pageComponent = getNewProxiedPageComponent(new ElementImpl((WebElement) element), fieldType);
+
             if (hasSubComponents(pageComponent)) {
                 ComponentFactory.initComponents(pageComponent.getContext(), pageComponent);
             }
@@ -78,6 +79,7 @@ public class ComponentDecorator implements FieldDecorator {
             for (WebElement contextElement : contextElementsList) {
                 Element castedElement = new ElementImpl(contextElement);
                 PageComponent pageComponent = getNewProxiedPageComponent(castedElement, erasureClass);
+
                 if (hasSubComponents(pageComponent)) {
                     ComponentFactory.initComponents(castedElement, pageComponent);
                 }
@@ -126,16 +128,15 @@ public class ComponentDecorator implements FieldDecorator {
             PageComponent pageComponent = (PageComponent) componentClass.newInstance();
             contextField.set(pageComponent, elementContext);
             ElementFactory.initElements(elementContext, pageComponent);
-            // TODO: Change the behaviour of ElementDecorator.decorate so it will allow @NoFindBy
-            // TODO: and prevent code duplication.
+
             contextField.set(pageComponent, elementContext);
 
             contextField.setAccessible(false);
 
             return pageComponent;
-        } catch (IllegalAccessException | InstantiationException | NoSuchFieldException ex) {
-            ex.printStackTrace();
-            return null;
+        }
+        catch (IllegalAccessException | InstantiationException | NoSuchFieldException ex) {
+            throw new RuntimeException(ex);
         }
     }
 
@@ -146,6 +147,7 @@ public class ComponentDecorator implements FieldDecorator {
         if (!(genericType instanceof ParameterizedType)) {
             return null;
         }
+
         return (Class<?>) ((ParameterizedType) genericType).getActualTypeArguments()[0];
     }
 
@@ -163,15 +165,11 @@ public class ComponentDecorator implements FieldDecorator {
             return false;
         }
 
-        if (    field.getAnnotation(FindBy.class) == null &&
-                field.getAnnotation(FindBys.class) == null &&
-                field.getAnnotation(org.openqa.selenium.support.FindAll.class) == null &&
-                field.getAnnotation(Find.class) == null &&
-                field.getAnnotation(Finds.class) == null &&
-                field.getAnnotation(FindAll.class) == null) {
-            return false;
-        }
-
-        return true;
+        return  field.getAnnotation(FindBy.class) != null ||
+                field.getAnnotation(FindBys.class) != null ||
+                field.getAnnotation(org.openqa.selenium.support.FindAll.class) != null ||
+                field.getAnnotation(Find.class) != null ||
+                field.getAnnotation(Finds.class) != null ||
+                field.getAnnotation(FindAll.class) != null;
     }
 }
