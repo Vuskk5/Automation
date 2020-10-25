@@ -2,9 +2,13 @@ package asisimAdvanced.components;
 
 import net.bsmch.components.PageComponent;
 import net.bsmch.findby.Find;
+import org.awaitility.Awaitility;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
 import org.selophane.elements.base.Element;
 
 import static asisimAdvanced.support.CustomConditions.sweetAlertIsDisplayed;
+import static org.awaitility.Awaitility.*;
 
 public class SweetAlert extends PageComponent {
     @Find(tagName = "h2")
@@ -19,11 +23,17 @@ public class SweetAlert extends PageComponent {
     }
 
     public Status status() {
-        driverWait().withMessage("alert did not show")
-                    .until(sweetAlertIsDisplayed());
+        await().until(() -> getContext().isDisplayed());
 
-        Element displayedIcon = $(".icon[style=\"display: block;\"]");
+        Element displayedIcon = $$(".icon") .stream()
+                                            .filter(Element::isDisplayed)
+                                            .findFirst()
+                                            .orElseThrow(() -> new NoSuchElementException("Cannot locate overlay icons"));
+
         String[] classes = displayedIcon.getAttribute("class").split(" ");
+        // 0 - .icon,
+        // 1 - .[status],
+        // 2 - .[statusAnimation]
         String alertStatus = classes[1];
 
         return Status.valueOf(alertStatus.toUpperCase());
@@ -42,6 +52,6 @@ public class SweetAlert extends PageComponent {
         WARNING(),
         INFO(),
         SUCCESS(),
-        CUSTOM();
+        CUSTOM()
     }
 }

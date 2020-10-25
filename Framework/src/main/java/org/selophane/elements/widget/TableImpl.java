@@ -3,7 +3,7 @@ package org.selophane.elements.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.bsmch.support.ElementConverter;
+import net.bsmch.support.ElementFinder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.selophane.elements.base.Element;
@@ -41,7 +41,7 @@ public class TableImpl extends ElementImpl implements Table {
 	@Override
 	public List<Element> findCellsWith(String text) {
 		final By locator = By.xpath("descendant::td[contains(text(), \"" + text + "\")]");
-		return ElementConverter.convertList(getWrappedElement().findElements(locator));
+		return ElementFinder.proxyAll(getWrappedElement(), locator);
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class TableImpl extends ElementImpl implements Table {
 	@Override
 	public List<Element> findRowsWith(String text) {
 		final By locator = By.xpath("descendant::tr[contains(string(), \"" + text + "\")]");
-		return ElementConverter.convertList(getWrappedElement().findElements(locator));
+		return ElementFinder.proxyAll(getWrappedElement(), locator);
 	}
 
 	@Override
@@ -88,15 +88,15 @@ public class TableImpl extends ElementImpl implements Table {
 	 * @return list of row WebElements
 	 */
 	private List<WebElement> getRows() {
-		List<WebElement> rows = new ArrayList<WebElement>();
+		List<WebElement> rows = new ArrayList<>();
 		
-		//Header rows
+		// Header rows
 		rows.addAll(findElements(By.cssSelector("thead tr")));
 		
-		//Body rows
+		// Body rows
 		rows.addAll(findElements(By.cssSelector("tbody tr")));
 		
-		//Footer rows
+		// Footer rows
 		rows.addAll(findElements(By.cssSelector("tfoot tr")));
 
 		return rows;

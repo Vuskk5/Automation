@@ -2,6 +2,7 @@ package asisimAdvanced.managers;
 
 import asisimAdvanced.models.Clinic;
 import asisimAdvanced.models.Soldier;
+import asisimAdvanced.tests.base.BaseTest;
 import org.openqa.selenium.InvalidArgumentException;
 
 import java.util.Arrays;
@@ -27,7 +28,7 @@ public class SoldierManager implements Manager<Soldier> {
     public List<Soldier> requestAll() {
         soldiers.set(Arrays.asList(
             given()
-                .port(9000)
+                .port(BaseTest.PORT)
                 .cookie(authenticate("developer", "developer"))
             .when()
                 .get("/soldiers").as(Soldier[].class)

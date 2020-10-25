@@ -49,6 +49,7 @@ public class TestListener implements ITestListener {
         Throwable exception = ExceptionUtil.filterStackTrace(result.getThrowable());
 
         ExtentTest test = TestManager.getTest();
+
         // Log the exception
         test.fail(exception);
 
@@ -56,5 +57,15 @@ public class TestListener implements ITestListener {
         if (DriverManager.getDriver() != null) {
             ExtentUtil.addScreenshotToTest(test, result);
         }
+    }
+
+    @Override
+    public void onTestSkipped(ITestResult result) {
+        TestManager.log(result);
+    }
+
+    @Override
+    public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
+        TestManager.log(result);
     }
 }

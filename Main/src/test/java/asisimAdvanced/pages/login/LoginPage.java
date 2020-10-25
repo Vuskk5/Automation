@@ -18,8 +18,8 @@ public class LoginPage extends PageObject {
     @Find(tagName = "button")
     private Element loginButton;
 
-    public LoginPage(WebDriver driver) {
-        super(driver);
+    public LoginPage() {
+        super();
     }
 
     public MainPage loginAs(String username, String password) {

@@ -39,17 +39,19 @@ public class DriverManager {
         return null;
     }
 
-    public static WebDriver startChrome() {
-        WebDriverManager.chromedriver().version("84");
+    public static ChromeDriver startChrome() {
+        WebDriverManager.chromedriver().version("86");
         WebDriverManager.chromedriver().setup();
-        driver.set(new ChromeDriver());
-        return getDriver();
+        ChromeDriver chromeDriver = new ChromeDriver();
+        driver.set(chromeDriver);
+        return chromeDriver;
     }
 
-    public static WebDriver startIExplorer() {
+    public static InternetExplorerDriver startIExplorer() {
         WebDriverManager.iedriver().setup();
-        driver.set(new InternetExplorerDriver());
-        return getDriver();
+        InternetExplorerDriver ieDriver = new InternetExplorerDriver();
+        driver.set(ieDriver);
+        return ieDriver;
     }
 
     public static ThreadLocal<WebDriver> getThreadedDriver() {
@@ -58,5 +60,10 @@ public class DriverManager {
 
     public static WebDriver getDriver() {
         return DriverManager.driver.get();
+    }
+
+    public static void quit() {
+        driver.get().quit();
+        driver.remove();
     }
 }

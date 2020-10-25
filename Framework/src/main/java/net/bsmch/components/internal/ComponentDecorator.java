@@ -2,14 +2,9 @@ package net.bsmch.components.internal;
 
 import net.bsmch.components.PageComponent;
 import net.bsmch.components.api.ComponentFactory;
-import net.bsmch.findby.FindAll;
-import net.bsmch.findby.Find;
-import net.bsmch.findby.Finds;
 import net.bsmch.findby.NoFind;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.pagefactory.*;
 import org.selophane.elements.base.Element;
 import org.selophane.elements.base.ElementImpl;
@@ -42,27 +37,25 @@ public class ComponentDecorator implements FieldDecorator {
             return null;
         }
 
-        Class<?> fieldType = field.getType();
 
         Field contextField;
         try {
             contextField = PageComponent.class.getDeclaredField(CONTEXT_FIELD_NAME);
         }
         catch (NoSuchFieldException ex) {
-            System.out.println("Field " + CONTEXT_FIELD_NAME + " does not exists in " + PageComponent.class.getName());
-            ex.printStackTrace();
-            return null;
+            throw new RuntimeException("Field " + CONTEXT_FIELD_NAME + " does not exists in " + PageComponent.class.getName(), ex);
         }
 
         // Locator with searchContext of the class calling initComponents
         ElementLocator locator = new DefaultElementLocator(this.searchContext, new Annotations(field));
 
         // If the fieldType is subclass of PageComponent
+        Class<?> fieldType = field.getType();
         if (PageComponent.class.isAssignableFrom(fieldType)) {
             ElementDecorator decorator = new ElementDecorator(new DefaultElementLocatorFactory(this.searchContext));
             Object element = decorator.decorate(PageComponent.class.getClassLoader(), contextField, locator);
 
-            PageComponent pageComponent = getNewProxiedPageComponent(new ElementImpl((WebElement) element), fieldType);
+            PageComponent pageComponent = getNewPageComponent(new ElementImpl((WebElement) element), fieldType);
 
             if (hasSubComponents(pageComponent)) {
                 ComponentFactory.initComponents(pageComponent.getContext(), pageComponent);
@@ -70,15 +63,19 @@ public class ComponentDecorator implements FieldDecorator {
 
             return pageComponent;
         }
-        // If the field is subclass of List
         else if (List.class.isAssignableFrom(fieldType)) {
-            Class<?> erasureClass = getErasureClass(field); // Get the List's inner type
+            Class<?> erasureClass = getErasureClass(field);
+
+            if (erasureClass == null) {
+                return null;
+            }
+
             List<WebElement> contextElementsList = locator.findElements();
             List<Object> componentsList = new ArrayList<>();
 
             for (WebElement contextElement : contextElementsList) {
                 Element castedElement = new ElementImpl(contextElement);
-                PageComponent pageComponent = getNewProxiedPageComponent(castedElement, erasureClass);
+                PageComponent pageComponent = getNewPageComponent(castedElement, erasureClass);
 
                 if (hasSubComponents(pageComponent)) {
                     ComponentFactory.initComponents(castedElement, pageComponent);
@@ -98,13 +95,17 @@ public class ComponentDecorator implements FieldDecorator {
         for (Field field : fields) {
             if (PageComponent.class.isAssignableFrom(field.getType())) {
                 return true;
-            } else if (List.class.isAssignableFrom(field.getType())) {
-                Class<?> erasureClass = getErasureClass(field); // List type
-                if (PageComponent.class.isAssignableFrom(erasureClass)) {
+            }
+            else if (List.class.isAssignableFrom(field.getType())) {
+                Class<?> erasureClass = getErasureClass(field);
+
+                if (erasureClass != null &&
+                    PageComponent.class.isAssignableFrom(erasureClass)) {
                     return true;
                 }
             }
         }
+
         return false;
     }
 
@@ -117,25 +118,17 @@ public class ComponentDecorator implements FieldDecorator {
      * @param componentClass    The class type of the component. Subclass of {@link PageComponent}.
      * @return  The instantiated {@link PageComponent} or null if an exception was thrown.
      */
-    private PageComponent getNewProxiedPageComponent(Element elementContext, Class<?> componentClass) {
+    private PageComponent getNewPageComponent(Element elementContext, Class<?> componentClass) {
         try {
-            // Get both fields of PageComponent and allow access to them
-            Field contextField = PageComponent.class.getDeclaredField("context");
-            contextField.setAccessible(true);
-
-            // Instantiate a SubClass of PageComponent
-            // Checks where made prior to this cast to ensure it is valid
             PageComponent pageComponent = (PageComponent) componentClass.newInstance();
-            contextField.set(pageComponent, elementContext);
+
             ElementFactory.initElements(elementContext, pageComponent);
 
-            contextField.set(pageComponent, elementContext);
-
-            contextField.setAccessible(false);
+            pageComponent.setContext(elementContext);
 
             return pageComponent;
         }
-        catch (IllegalAccessException | InstantiationException | NoSuchFieldException ex) {
+        catch (IllegalAccessException | InstantiationException ex) {
             throw new RuntimeException(ex);
         }
     }
@@ -157,6 +150,7 @@ public class ComponentDecorator implements FieldDecorator {
         }
 
         Class<?> erasureClass = getErasureClass(field);
+
         if (erasureClass == null) {
             return false;
         }
@@ -165,11 +159,11 @@ public class ComponentDecorator implements FieldDecorator {
             return false;
         }
 
-        return  field.getAnnotation(FindBy.class) != null ||
-                field.getAnnotation(FindBys.class) != null ||
+        return  field.getAnnotation(org.openqa.selenium.support.FindBy.class) != null ||
+                field.getAnnotation(org.openqa.selenium.support.FindBys.class) != null ||
                 field.getAnnotation(org.openqa.selenium.support.FindAll.class) != null ||
-                field.getAnnotation(Find.class) != null ||
-                field.getAnnotation(Finds.class) != null ||
-                field.getAnnotation(FindAll.class) != null;
+                field.getAnnotation(net.bsmch.findby.Find.class) != null ||
+                field.getAnnotation(net.bsmch.findby.Finds.class) != null ||
+                field.getAnnotation(net.bsmch.findby.FindAll.class) != null;
     }
 }

@@ -4,17 +4,17 @@ import com.google.common.base.Joiner;
 import org.openqa.selenium.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 /**
- * Canned {@link ElementCondition}s which are generally useful within websearchContext tests.
+ * Canned {@link ElementCondition}s which are generally useful within WebSearchContext tests.
  */
+@SuppressWarnings("unused")
 public class ElementConditions {
-
-    private final static Logger log = Logger.getLogger(ElementConditions.class.getName());
 
     private ElementConditions() {
         // Utility class
@@ -75,18 +75,17 @@ public class ElementConditions {
      * @param locator used to find the element
      * @return the list of WebElements once they are located
      */
-    public static ElementCondition<List<WebElement>> visibilityOfAllElementsLocatedBy(
-            final By locator) {
+    public static ElementCondition<List<WebElement>> visibilityOfAllElementsLocated(final By locator) {
         return new ElementCondition<List<WebElement>>() {
             @Override
             public List<WebElement> apply(SearchContext searchContext) {
                 List<WebElement> elements = searchContext.findElements(locator);
                 for (WebElement element : elements) {
                     if (!element.isDisplayed()) {
-                        return null;
+                        return Collections.emptyList();
                     }
                 }
-                return elements.size() > 0 ? elements : null;
+                return !elements.isEmpty() ? elements : null;
             }
 
             @Override
@@ -124,10 +123,10 @@ public class ElementConditions {
             public List<WebElement> apply(SearchContext searchContext) {
                 for (WebElement element : elements) {
                     if (!element.isDisplayed()) {
-                        return null;
+                        return Collections.emptyList();
                     }
                 }
-                return elements.size() > 0 ? elements : null;
+                return !elements.isEmpty() ? elements : null;
             }
 
             @Override
@@ -178,7 +177,7 @@ public class ElementConditions {
             @Override
             public List<WebElement> apply(SearchContext searchContext) {
                 List<WebElement> elements = searchContext.findElements(locator);
-                return elements.size() > 0 ? elements : null;
+                return !elements.isEmpty() ? elements : null;
             }
 
             @Override
@@ -204,8 +203,8 @@ public class ElementConditions {
                 try {
                     String elementText = element.getText();
                     return elementText.contains(text);
-                } catch (StaleElementReferenceException e) {
-                    return null;
+                } catch (StaleElementReferenceException ex) {
+                    return false;
                 }
             }
 
@@ -233,8 +232,8 @@ public class ElementConditions {
                 try {
                     String elementText = searchContext.findElement(locator).getText();
                     return elementText.contains(text);
-                } catch (StaleElementReferenceException e) {
-                    return null;
+                } catch (StaleElementReferenceException ex) {
+                    return false;
                 }
             }
 
@@ -266,8 +265,9 @@ public class ElementConditions {
                         return elementText.contains(text);
                     }
                     return false;
-                } catch (StaleElementReferenceException e) {
-                    return null;
+                }
+                catch (StaleElementReferenceException ex) {
+                    return false;
                 }
             }
 
@@ -299,8 +299,9 @@ public class ElementConditions {
                         return elementText.contains(text);
                     }
                     return false;
-                } catch (StaleElementReferenceException e) {
-                    return null;
+                }
+                catch (StaleElementReferenceException ex) {
+                    return false;
                 }
             }
 
@@ -324,11 +325,11 @@ public class ElementConditions {
             public Boolean apply(SearchContext searchContext) {
                 try {
                     return !(searchContext.findElement(locator).isDisplayed());
-                } catch (NoSuchElementException e) {
+                }
+                catch (NoSuchElementException | StaleElementReferenceException ex) {
                     // Returns true because the element is not present in DOM. The
                     // try block checks if the element is present but is invisible.
-                    return true;
-                } catch (StaleElementReferenceException e) {
+
                     // Returns true because stale element reference implies that element
                     // is no longer visible.
                     return true;
@@ -357,11 +358,11 @@ public class ElementConditions {
             public Boolean apply(SearchContext searchContext) {
                 try {
                     return !searchContext.findElement(locator).getText().equals(text);
-                } catch (NoSuchElementException e) {
+                }
+                catch (NoSuchElementException | StaleElementReferenceException e) {
                     // Returns true because the element with text is not present in DOM. The
                     // try block checks if the element is present but is invisible.
-                    return true;
-                } catch (StaleElementReferenceException e) {
+
                     // Returns true because stale element reference implies that element
                     // is no longer visible.
                     return true;
@@ -534,8 +535,9 @@ public class ElementConditions {
                 try {
                     WebElement element = searchContext.findElement(locator);
                     return element.isSelected() == selected;
-                } catch (StaleElementReferenceException e) {
-                    return null;
+                }
+                catch (StaleElementReferenceException ex) {
+                    return false;
                 }
             }
 

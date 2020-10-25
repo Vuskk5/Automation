@@ -152,8 +152,7 @@ public class Screenshot {
             return MediaEntityBuilder.createScreenCaptureFromBase64String(screenshotBase64).build();
         }
         catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
+            throw new RuntimeException("Could not create a file from the given Base64 String.", ex);
         }
     }
 
@@ -168,8 +167,7 @@ public class Screenshot {
             return MediaEntityBuilder.createScreenCaptureFromPath(destination.getAbsolutePath()).build();
         }
         catch (IOException ex) {
-            System.out.println("Could not copy screenshot to " + destination.getAbsolutePath());
-            return null;
+            throw new RuntimeException("Could not copy screenshot to " + destination.getAbsolutePath(), ex);
         }
     }
 }

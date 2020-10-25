@@ -3,11 +3,8 @@ package asisimAdvanced.pages.soldiertreatment.fragment;
 import net.bsmch.components.PageComponent;
 import net.bsmch.findby.Find;
 import org.awaitility.Awaitility;
-import org.openqa.selenium.By;
 import org.selophane.elements.widget.Select;
 import org.selophane.elements.widget.TextBox;
-
-import static net.bsmch.elementwait.ElementConditions.numberOfElementsToBeMoreThan;
 
 public class AppointmentDetails extends PageComponent {
     @Find(id = "severities")
@@ -17,7 +14,7 @@ public class AppointmentDetails extends PageComponent {
 
     public AppointmentDetails selectSeverity(String severityName) {
         Awaitility.await().until(() -> severity.getOptions().size() > 1);
-        contextWait().until(driver -> severity.getOptions().size() > 1);
+        compWait().until(driver -> severity.getOptions().size() > 1);
         severity.selectByVisibleText(severityName);
         return this;
     }

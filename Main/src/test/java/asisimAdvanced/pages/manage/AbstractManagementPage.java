@@ -3,7 +3,6 @@ package asisimAdvanced.pages.manage;
 import asisimAdvanced.pages.general.MainPage;
 import net.bsmch.findby.Find;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.selophane.elements.base.Element;
 import org.selophane.elements.widget.Table;
 
@@ -19,8 +18,8 @@ public abstract class AbstractManagementPage<T extends AbstractManagementPage<T,
     @Find(attribute = "onclick", value = "update()")
     private Element updateButton;
 
-    protected AbstractManagementPage(WebDriver driver) {
-        super(driver);
+    protected AbstractManagementPage() {
+        super();
     }
 
     public abstract void add(X object);
@@ -32,7 +31,7 @@ public abstract class AbstractManagementPage<T extends AbstractManagementPage<T,
 
     public T clickNew() {
         newButton.click();
-        driverWait().until(visibilityOfElementLocated(By.id("new")));
+        Wait().until(visibilityOfElementLocated(By.id("new")));
         return getThis();
     }
 

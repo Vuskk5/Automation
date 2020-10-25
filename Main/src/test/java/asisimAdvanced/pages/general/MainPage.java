@@ -9,11 +9,11 @@ import org.selophane.elements.base.Element;
 public class MainPage extends PageObject {
     @Find(className = "sweet-alert")
     protected SweetAlert alert;
-    @Find(id = "asisim")
+    @Find(className = "navbar-brand")
     protected Element navbar;
 
-    public MainPage(WebDriver driver) {
-        super(driver);
+    public MainPage() {
+        super();
     }
 
     @Override

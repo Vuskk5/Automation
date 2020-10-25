@@ -1,7 +1,7 @@
 package asisimAdvanced.managers;
 
-import asisimAdvanced.models.Clinic;
 import asisimAdvanced.models.Doctor;
+import asisimAdvanced.tests.base.BaseTest;
 import org.openqa.selenium.InvalidArgumentException;
 
 import java.util.Arrays;
@@ -15,7 +15,7 @@ public class DoctorManager implements Manager<Doctor> {
     private static final ThreadLocal<List<Doctor>> doctors = new ThreadLocal<>();
     private static final ThreadLocal<DoctorManager> manager = new ThreadLocal<>();
 
-    public static DoctorManager getInstance() {
+    public synchronized static DoctorManager getInstance() {
         if (manager.get() == null) {
             manager.set(new DoctorManager());
         }
@@ -23,11 +23,13 @@ public class DoctorManager implements Manager<Doctor> {
         return manager.get();
     }
 
+    private DoctorManager() { }
+
     @Override
-    public List<Doctor> requestAll() {
+    public synchronized List<Doctor> requestAll() {
         doctors.set(Arrays.asList(
             given()
-                .port(9000)
+                .port(BaseTest.PORT)
                 .cookie(authenticate("developer", "developer"))
             .when()
                 .get("/doctors").as(Doctor[].class)
@@ -37,7 +39,7 @@ public class DoctorManager implements Manager<Doctor> {
     }
 
     @Override
-    public List<Doctor> getAll() {
+    public synchronized List<Doctor> getAll() {
         if (doctors.get() == null) {
             requestAll();
         }
@@ -46,7 +48,7 @@ public class DoctorManager implements Manager<Doctor> {
     }
 
     @Override
-    public Doctor getById(Long doctorId) {
+    public synchronized Doctor getById(Long doctorId) {
         Optional<Doctor> optionalRank = getAll().stream().filter(doctor -> doctor.soldierId().equals(doctorId)).findFirst();
 
         if (optionalRank.isPresent()) {

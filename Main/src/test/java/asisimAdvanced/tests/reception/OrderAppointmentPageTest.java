@@ -5,12 +5,12 @@ import asisimAdvanced.components.navigation.NavigateTo;
 import asisimAdvanced.models.Appointment;
 import asisimAdvanced.pages.soldiertreatment.OrderAppointmentPage;
 import asisimAdvanced.support.util.DataManager;
-import asisimAdvanced.tests.base.DataDrivenTest;
+import asisimAdvanced.tests.base.MethodLevelRunner;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class OrderAppointmentPageTest extends DataDrivenTest {
+public class OrderAppointmentPageTest extends MethodLevelRunner {
     @Test(  dataProvider = "NewAppointmentData", dataProviderClass = DataManager.class,
             testName = "Order Appointment",
             groups = { "a:Kfir Doron", "d:Windows PC", "t:DataDriven", "t:Appointments" })

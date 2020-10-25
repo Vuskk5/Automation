@@ -5,8 +5,8 @@ import asisimAdvanced.pages.manage.AbstractManagementPage;
 import org.openqa.selenium.WebDriver;
 
 public class ManageDoctorsPage extends AbstractManagementPage<ManageDoctorsPage, Doctor> {
-    protected ManageDoctorsPage(WebDriver driver) {
-        super(driver);
+    protected ManageDoctorsPage() {
+        super();
     }
 
     @Override

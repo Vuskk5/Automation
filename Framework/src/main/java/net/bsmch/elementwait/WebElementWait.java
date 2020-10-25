@@ -8,8 +8,6 @@ import java.time.Clock;
 import java.time.Duration;
 
 public class WebElementWait extends FluentWait<WebElement> {
-    private final WebElement element;
-
     public WebElementWait(WebElement element, long timeOutInSeconds) {
         this(
             element,
@@ -36,6 +34,5 @@ public class WebElementWait extends FluentWait<WebElement> {
         super(element, clock, sleeper);
         withTimeout(Duration.ofSeconds(timeOutInSeconds));
         pollingEvery(Duration.ofMillis(sleepTimeOut));
-        this.element = element;
     }
 }

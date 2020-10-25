@@ -1,6 +1,5 @@
 package asisimAdvanced.pages.manage.soldiers;
 
-import asisimAdvanced.support.util.DateUtil;
 import asisimAdvanced.support.util.json.JsonUtil;
 import net.bsmch.components.PageComponent;
 import net.bsmch.findby.Find;
@@ -9,7 +8,6 @@ import org.selophane.elements.widget.Select;
 import org.selophane.elements.widget.TextBox;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class NewSoldierModal extends PageComponent {
     private TextBox newId;

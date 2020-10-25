@@ -1,6 +1,7 @@
 package asisimAdvanced.managers;
 
 import asisimAdvanced.models.Rank;
+import asisimAdvanced.tests.base.BaseTest;
 import org.openqa.selenium.InvalidArgumentException;
 
 import java.util.Arrays;
@@ -26,7 +27,7 @@ public class RankManager implements Manager<Rank> {
     public List<Rank> requestAll() {
         ranks.set(Arrays.asList(
             given()
-                .port(9000)
+                .port(BaseTest.PORT)
                 .cookie(authenticate("developer", "developer"))
             .when()
                 .get("/ranks").as(Rank[].class)

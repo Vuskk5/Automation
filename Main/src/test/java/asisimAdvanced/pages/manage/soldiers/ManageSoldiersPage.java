@@ -16,8 +16,8 @@ public class ManageSoldiersPage extends AbstractManagementPage<ManageSoldiersPag
     @Find(className = "table-hover")
     private Table soldierTable;
 
-    public ManageSoldiersPage(WebDriver driver) {
-        super(driver);
+    public ManageSoldiersPage() {
+        super();
 
         await().atMost(5, SECONDS)
                 .until(() -> soldierTable.getRowCount() > 1);

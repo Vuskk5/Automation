@@ -6,7 +6,6 @@ import asisimAdvanced.pages.soldiertreatment.fragment.AppointmentSelection;
 import asisimAdvanced.pages.soldiertreatment.fragment.SoldierDetails;
 import net.bsmch.components.api.ComponentFactory;
 import net.bsmch.findby.Find;
-import org.openqa.selenium.WebDriver;
 import org.selophane.elements.base.Element;
 import org.selophane.elements.factory.api.ElementFactory;
 
@@ -29,10 +28,10 @@ public class OrderAppointmentPage extends MainPage {
     @Find(attribute = "onclick", value = "createAppointment()")
     private Element createAppointment;
 
-    public OrderAppointmentPage(WebDriver driver) {
-        super(driver);
-        ComponentFactory.initComponents(getDriver(), this);
-        ElementFactory.initElements(getDriver(), this);
+    public OrderAppointmentPage() {
+        super();
+        ComponentFactory.initComponents(driver(), this);
+        ElementFactory.initElements(driver(), this);
     }
 
     public OrderAppointmentPage chooseSoldier(Long soldierId) {

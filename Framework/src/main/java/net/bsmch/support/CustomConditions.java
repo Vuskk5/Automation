@@ -19,7 +19,7 @@ public class CustomConditions {
 
             @Override
             public String toString() {
-                return null;
+                return " element to have value";
             }
         };
     }
